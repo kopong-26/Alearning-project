@@ -1,0 +1,11 @@
+{
+  "name": "alearning-monorepo",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:frontend": "npm run dev --workspace=apps/Alearning-frontend"
+  }
+}
