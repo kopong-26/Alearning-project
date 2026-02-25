@@ -1,3 +1,5 @@
+import { BaseButton } from "./BaseButton"
+
 export function Header(){
     return (
         <header className="flex items-center justify-between min-h-[64px] px-4 py-4 border-b  border-main-contrast gap-2 flex-nowrap ">
@@ -25,10 +27,7 @@ export function Header(){
                 <input type="text" className="border border-main-contrast rounded-md grow shrink max-w-md 
                 px-3 py-1.5 text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer" />
             </div>           
-            <button type="button" className="px-2 py-1.5 h-8 text-sm border border-main-contrast rounded-md shrink-0 cursor-pointer">
-                Sign in
-            </button>
-
+            <BaseButton>Sign in</BaseButton>
         </header>
     )
 }
