@@ -1,8 +1,8 @@
 import { BaseButton } from "./BaseButton"
 
-export function Header(){
+export function Header({className=""}){
     return (
-        <header className="flex items-center justify-between min-h-16 px-4 py-4 border-b  border-main-contrast gap-2 flex-nowrap ">
+        <header className={`flex items-center justify-between min-h-16 px-4 py-4 border-b  border-main-contrast gap-2 flex-nowrap ${className}`}>
             <button className="flex items-center justify-center w-8 h-8 border border-gray-300 rounded-md text-grey-600 shrink-0 hover:bg-gray-50 cursor-pointer">
                 <svg 
                     xmlns="http://www.w3.org/2000/svg" 
