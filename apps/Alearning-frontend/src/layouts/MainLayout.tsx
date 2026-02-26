@@ -6,7 +6,10 @@ export function MainLayout(){
     return (
         <>
             <Header className="mb-6"/>
-            <BaseButton className="mb-6 mr-4 relative left-28"> Sort </BaseButton>
+            <div className="flex justify-end mb-6 mr-4 gap-2">
+                <BaseButton> Sort </BaseButton>
+                <BaseButton> New </BaseButton>
+            </div>
             <NoteList></NoteList>
         </>
             
