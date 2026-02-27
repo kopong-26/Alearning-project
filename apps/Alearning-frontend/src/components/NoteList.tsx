@@ -1,51 +1,8 @@
-export function NoteList(){
-    let notes = [
-    {
-        id: 1,
-        title: "Frontend",
-        desc: "สรุปก็คือ เบราว์เซอร์กำลังแอบช่วยปรับเส้นขอบ border-[1px] ของคุณให้คมชัดที่สุดบนหน้าจอของคุณ โดยยอมให้ตัวเลขใน Inspector เพี้ยนไปนิดหน่อยเพื่อแลกกับความสวยงามครับ",
-        createOn: "2026-02-25" ,
-        updateOn: "2026-02-25",
-        author: "artkpt",
-        status: "public"
-    },
-    {
-        id: 2,
-        title: "Frontend",
-        desc: "สรุปก็คือ เบราว์เซอร์กำลังแอบช่วยปรับเส้นขอบ border-[1px] ของคุณให้คมชัดที่สุดบนหน้าจอของคุณ โดยยอมให้ตัวเลขใน Inspector เพี้ยนไปนิดหน่อยเพื่อแลกกับความสวยงามครับ",
-        createOn: "2026-02-25" ,
-        updateOn: "2026-02-25",
-        author: "artkpt",
-        status: "public"
-    },
-    {
-        id: 3,
-        title: "Frontend",
-        desc: "สรุปก็คือ เบราว์เซอร์กำลังแอบช่วยปรับเส้นขอบ border-[1px] ของคุณให้คมชัดที่สุดบนหน้าจอของคุณ โดยยอมให้ตัวเลขใน Inspector เพี้ยนไปนิดหน่อยเพื่อแลกกับความสวยงามครับ",
-        createOn: "2026-02-25" ,
-        updateOn: "2026-02-25",
-        author: "artkpt",
-        status: "public"
-    },
-    {
-        id: 4,
-        title: "Frontend",
-        desc: "สรุปก็คือ เบราว์เซอร์กำลังแอบช่วยปรับเส้นขอบ border-[1px] ของคุณให้คมชัดที่สุดบนหน้าจอของคุณ โดยยอมให้ตัวเลขใน Inspector เพี้ยนไปนิดหน่อยเพื่อแลกกับความสวยงามครับ",
-        createOn: "2026-02-25" ,
-        updateOn: "2026-02-25",
-        author: "artkpt",
-        status: "public"
-    },
-    {
-        id: 5,
-        title: "Frontend",
-        desc: "สรุปก็คือ เบราว์เซอร์กำลังแอบช่วยปรับเส้นขอบ border-[1px] ของคุณให้คมชัดที่สุดบนหน้าจอของคุณ โดยยอมให้ตัวเลขใน Inspector เพี้ยนไปนิดหน่อยเพื่อแลกกับความสวยงามครับ",
-        createOn: "2026-02-25" ,
-        updateOn: "2026-02-25",
-        author: "artkpt",
-        status: "public"
-    }
-    ]
+interface NoteListProps {
+    notes: any[]; // แนะนำให้สร้าง interface ของ Note แยกในอนาคตเพื่อแทนที่ any
+}
+
+export function NoteList({notes}: NoteListProps){
 
     return (
         notes.map((note)=> {
