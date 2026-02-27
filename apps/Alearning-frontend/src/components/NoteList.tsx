@@ -1,6 +1,5 @@
-
-
-let notes = [
+export function NoteList(){
+    let notes = [
     {
         id: 1,
         title: "Frontend",
@@ -46,9 +45,8 @@ let notes = [
         author: "artkpt",
         status: "public"
     }
-]
+    ]
 
-export function NoteList(){
     return (
         notes.map((note)=> {
             return (

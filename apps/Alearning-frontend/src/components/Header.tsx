@@ -1,4 +1,4 @@
-import { BaseButton } from "./BaseButton"
+import { BaseButton } from "./BaseComponents/BaseButton"
 
 export function Header({className=""}){
     return (
