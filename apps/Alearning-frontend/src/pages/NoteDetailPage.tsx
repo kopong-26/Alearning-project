@@ -1,11 +1,17 @@
 import { useRouteLoaderData, useParams } from "react-router"
+interface Note {
+    id: string | number; // รองรับทั้ง String และ Number จาก API
+    title: string;
+    desc: string;
+}
 
 export function NoteDetailPage(){
     const { id } = useParams()
-    const {notes} = useRouteLoaderData("notes-data") as { notes: any[] }
+    const {notes} = useRouteLoaderData("notes-data") as { notes: Note[] }
     console.log(id)
+    console.log(notes)
 
-    let note = notes.find((note)=> note.id === Number(id))
+    let note = notes.find((note) => String(note.id) === String(id))
     
     return (
         <>
