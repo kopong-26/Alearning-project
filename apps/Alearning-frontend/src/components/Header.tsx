@@ -1,9 +1,26 @@
+import { useState } from "react"
 import { BaseButton } from "./BaseComponents/BaseButton"
 
 export function Header({className=""}){
+    const [openMenu, setOpenMenu] = useState(false)
+    const menuList = [{
+        name: "Home",
+        link: "/"
+
+    },
+{
+        name: "Notes",
+        link: "/notes"
+
+    },]
+
+    const menuOpen = () => {
+        setOpenMenu(!openMenu)
+    }
     return (
+        <>
         <header className={`flex items-center justify-between min-h-16 px-4 py-4 border-b  border-main-contrast gap-2 flex-nowrap ${className}`}>
-            <button className="flex items-center justify-center w-8 h-8 border border-gray-300 rounded-md text-grey-600 shrink-0 hover:bg-gray-50 cursor-pointer">
+            <button className="flex items-center justify-center w-8 h-8 border border-gray-300 rounded-md text-grey-600 shrink-0 hover:bg-gray-50 cursor-pointer" onClick={menuOpen}>
                 <svg 
                     xmlns="http://www.w3.org/2000/svg" 
                     fill="none" 
@@ -29,5 +46,35 @@ export function Header({className=""}){
             </div>           
             <BaseButton>Sign in</BaseButton>
         </header>
+        {/* Sidebar */}
+            {openMenu && (
+                <div className="fixed inset-0 flex">
+
+                    {/* overlay */}
+                    <div
+                        className="fixed inset-0 bg-black/40"
+                        onClick={() => setOpenMenu(false)}
+                    />
+
+                    {/* sidebar */}
+                    <div className="relative w-64 bg-white h-full shadow-lg p-4">
+                        <h2 className="text-lg font-semibold mb-4">Menu</h2>
+                        <ul className="space-y-2">
+                            {
+                                menuList.map((menu) => {   
+                                    return (
+                                        <li key={menu.name}>
+                                            <a href={menu.link} className="block px-3 py-2 rounded-md hover:bg-gray-100">
+                                                {menu.name}
+                                            </a>
+                                        </li>
+                                    )       
+                                  }   
+                                )}
+                        </ul> 
+                    </div>
+                </div>
+            )}
+        </>
     )
 }
