@@ -14,7 +14,7 @@ export const router = createBrowserRouter([
   {
     path: "/notes",
     id: "notes-data",
-    loader: async() => { return {notes: await getItems("http://localhost:3001/notes")}},
+    loader: async() => { return {notes: await getItems(`${import.meta.env.VITE_API_URL}/notes`)}},
     Component: MainLayout,
     children: [
       {index: true, Component: NoteListPage},
