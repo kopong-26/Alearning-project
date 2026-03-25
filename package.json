@@ -5,8 +5,12 @@
     "apps/*",
     "packages/*"
   ],
+  "overrides": {
+  "knex": "3.0.1"
+  },
   "scripts": {
-    "dev:frontend": "npm run dev --workspace=apps/Alearning-frontend",
-    "dev:api": "npm run mock-api --workspace=apps/Alearning-frontend"
+    "dev:frontend": "npm run dev --workspace=apps/alearning-frontend",
+    "dev:api": "npm run mock-api --workspace=apps/alearning-frontend",
+    "dev:backend": "npm run dev --workspace=apps/alearning-backend"
   }
 }
