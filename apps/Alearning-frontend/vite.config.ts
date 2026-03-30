@@ -8,4 +8,14 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  server:{
+    proxy:{
+      '/api':{
+        target: 'http://localhost:3333',
+        // changeOrigin: true,
+        // เพิ่มบรรทัดนี้: เพื่อลบ /api ออกก่อนส่งไปที่ json-server
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    }
+  }
 })
