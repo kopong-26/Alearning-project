@@ -5,7 +5,6 @@ import { NoteListPage } from "../pages/NoteListPage";
 import { NoteDetailPage } from "../pages/NoteDetailPage";
 import { getItems } from "../util/fetchUtils";
 
-
 export const router = createBrowserRouter([
   {
     path: "/",

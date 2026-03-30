@@ -1,7 +1,7 @@
 import { Link } from "react-router";
-
+import type { Note, NoteList } from '@alearning/types';
 interface NoteListProps {
-    notes: any[]; // แนะนำให้สร้าง interface ของ Note แยกในอนาคตเพื่อแทนที่ any
+    notes: Note[]; 
 }
 
 export function NoteList({notes}: NoteListProps){
@@ -13,9 +13,9 @@ export function NoteList({notes}: NoteListProps){
                     <h3 className="text-xl font-semibold text-blue-600">
                         <Link to={`/notes/${note.id}`}>{note.title}</Link>
                     </h3>
-                    <p className="text-sm break-keep">{note.desc}</p>
+                    <p className="text-sm break-keep">{note.description}</p>
                     <p className="text-xs ">
-                        Author: {note.author} | Created On: {note.createOn}
+                        Author: {note.owner} | Created On: {note.createdAt}
                     </p>
                 </div>
             )
