@@ -5,4 +5,6 @@ export class NoteService {
   async getPublicNotes(){
     return await Note.query().where('visibility', 'public').where('isShadow', false)
   }
+
+  
 }

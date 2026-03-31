@@ -1,10 +1,7 @@
 import { useRouteLoaderData, useParams } from "react-router"
 import { BaseButton } from "../components/BaseComponents/BaseButton";
-interface Note {
-    id: string | number; // รองรับทั้ง String และ Number จาก API
-    title: string;
-    desc: string;
-}
+import type { Note } from "@alearning/types";
+
 
 export function NoteDetailPage(){
     const { id } = useParams()
@@ -18,9 +15,9 @@ export function NoteDetailPage(){
         <>
         <div className="m-4 p-4 border border-main-contrast rounded-sm gap-2.5 flex-col flex">
             <div className="flex items-center pb-2 border-b border-main-contrast">
-                <h2 className="text-2xl font-semibold ">{note.title}</h2>
+                <h2 className="text-2xl font-semibold ">{note?.title}</h2>
                 <BaseButton disabled className="bg-green-500 text-white font-semibold mx-2">
-                    {note.status}
+                    {note?.visibility}
                 </BaseButton>
                 <span className="flex items-center ml-auto gap-4">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
@@ -31,7 +28,7 @@ export function NoteDetailPage(){
                     </svg>
                 </span>
             </div>
-            <p className="text-base mt-4">{note.content}</p>
+            <p className="text-base mt-4">{note?.contentHtml}</p>
         </div>
 
         

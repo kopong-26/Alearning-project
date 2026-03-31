@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 interface HeaderProps {
   className?: string;
   children?: ReactNode;
+  disabled?: boolean
 }
 
 export function BaseButton({children, className= "", disabled}: HeaderProps){
