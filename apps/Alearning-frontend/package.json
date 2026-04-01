@@ -11,11 +11,13 @@
     "mock-api": "json-server --watch data/db.json --port 3001"
   },
   "dependencies": {
+    "@alearning/types": "^1.0.0",
     "@tailwindcss/vite": "^4.2.0",
     "daisyui": "^5.5.19",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router": "^7.13.1",
+    "react-select": "^5.10.2",
     "tailwindcss": "^4.2.0"
   },
   "devDependencies": {
