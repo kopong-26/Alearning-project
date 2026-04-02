@@ -8,4 +8,4 @@
 */
 
 import './routes/note.js'
-
+import './routes/topic.js'

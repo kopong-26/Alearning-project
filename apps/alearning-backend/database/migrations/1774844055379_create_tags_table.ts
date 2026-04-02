@@ -10,6 +10,7 @@ export default class extends BaseSchema {
       table.datetime('updated_at').notNullable()
       table.integer('note_id').unsigned().notNullable().references('id').inTable('notes')
       table.integer('topic_id').unsigned().notNullable().references('id').inTable('topics')
+      table.unique(['note_id', 'topic_id'])
     })
   }
 

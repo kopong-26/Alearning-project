@@ -5,6 +5,12 @@ export default class Tag extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
+  @column()
+  declare noteId: number
+  @column()
+
+  declare topicId: number
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
