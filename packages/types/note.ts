@@ -1,4 +1,4 @@
-export interface Note{
+export interface NoteResponse{
     id: number
     title: string
     slug: string
@@ -12,4 +12,11 @@ export interface Note{
     updatedAt: string
 }
 
-export type NoteList = Note[]
+export interface NoteFormBody{
+    title: string
+    visibility: "public" | "private"
+    // owner: number
+    description: string
+    contentRaw: string
+    topic_id: number[]
+}

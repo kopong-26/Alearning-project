@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { BaseButton } from "./BaseComponents/BaseButton"
+import { Input } from "./BaseComponents/Input"
 
 export function Header({className=""}){
     const [openMenu, setOpenMenu] = useState(false)
@@ -41,8 +42,7 @@ export function Header({className=""}){
                 <h1 className="hidden sm:block font-sans text-xl font-semibold cursor-pointer">
                     Alearning
                 </h1>
-                <input type="text" className="border border-main-contrast rounded-md grow shrink max-w-md 
-                px-3 py-1.5 text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer" />
+            <Input type="text" name="search" />
             </div>           
             <BaseButton>Sign in</BaseButton>
         </header>

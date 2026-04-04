@@ -1,7 +1,8 @@
 import { Link } from "react-router";
-import type { Note, NoteList } from '@alearning/types';
+import type { NoteResponse} from '@alearning/types';
+
 interface NoteListProps {
-    notes: Note[]; 
+    notes: NoteResponse[]; 
 }
 
 export function NoteList({notes}: NoteListProps){
