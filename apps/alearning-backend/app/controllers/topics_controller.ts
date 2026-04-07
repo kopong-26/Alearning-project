@@ -21,4 +21,9 @@ export default class TopicsController {
         
         return query.exec()
     }
+
+    async createTopic({request}:HttpContext){
+        const body = request.body()
+        return await Topic.create(body)
+    }
 }

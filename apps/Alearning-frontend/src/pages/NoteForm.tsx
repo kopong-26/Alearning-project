@@ -1,10 +1,10 @@
 import AsyncCreatableSelect from "react-select/async-creatable"
 import { Input } from "../components/BaseComponents/Input"
-import { getItems } from "../utils/fetchUtils"
-import { useState } from "react"
+import { createItem, getItems } from "../utils/fetchUtils"
+import { useState, type SyntheticEvent } from "react"
 import type { MultiValue } from "react-select"
 import { BaseButton } from "../components/BaseComponents/BaseButton"
-import { Form, useNavigate } from "react-router";
+import { Form, useSubmit} from "react-router";
 
 interface TopicOption {
   label: string;
@@ -13,13 +13,12 @@ interface TopicOption {
 }
 
 export function NoteForm(){
-    // const {body, setbody} = useState({})
     const [inputTitle, setInputTitle] = useState("")
-    const [inputSlug, setInputSlug] = useState("")
     const [inputDesc, setInputDesc] = useState("")
     const [inputContent, setInputContent] = useState("")
+    const [inputVis, setInputVis] = useState("")
     const [selectOptions, setSelectOptions] = useState<MultiValue<TopicOption>>([])
-    let navigate = useNavigate();
+    const submit = useSubmit()
     
     async function loadOptions(searchValue:string) {
         const params:{search?: string} = {}
@@ -36,15 +35,36 @@ export function NoteForm(){
         } catch{ return []}
     }
 
-    function submitForm(){
+    async function handleTopic(e: SyntheticEvent){
+        e.preventDefault()
+        const newOptions = selectOptions.filter((option)=> option["__isNew__"])
+                                        .map((option)=> ({name: option.value.trim()}))
+
+        const oldOptions = selectOptions.filter((option)=> !option["__isNew__"])
+                                        .map((option)=> option.value)
+        const newTopics = []
+        for(let newOption of newOptions){
+            const newTopic = await createItem(import.meta.env.VITE_TOPIC_API,newOption)
+            newTopics.push(newTopic)
+        }
+        const topic_id = newTopics.map((topic)=> topic.id).concat(oldOptions)
+
+        const payload = {
+            title: inputTitle,
+            description: inputDesc,
+            visibility: inputVis,
+            contentRaw: inputContent,
+            topic_id: topic_id
+        }
+
+        submit(payload, {method: "post", action:"/notes/form", encType: "application/json"})
         
-        navigate("/notes");
     }
     
     return (
         <div className="m-6 pb-50">
                 <h2 className="text-2xl font-semibold mb-3">Create Note</h2>
-                <Form className="flex flex-col gap-1.5" method="post" >
+                <Form className="flex flex-col gap-1.5" method="post" onSubmit={handleTopic}>
                     <label className="font-semibold">Title</label>
                     <Input 
                         type="text" 
@@ -54,15 +74,6 @@ export function NoteForm(){
                         }}
                         value={inputTitle}
                     />
-                    {/* <label className="font-semibold">Slug</label>
-                    <Input 
-                        type="text" 
-                        name="slug" 
-                        onChange={(event)=> {
-                            setInputSlug(event.target.value)
-                        }}
-                        value={inputSlug}
-                    /> */}
                     <label className="font-semibold">Description</label>
                     <Input 
                         type="text" 
@@ -78,6 +89,8 @@ export function NoteForm(){
                             type="radio" 
                             name="visibility" 
                             value="public"
+                            onChange={(e)=> setInputVis(e.target.value)}
+
                         /> 
                         <label>Public</label>
                     </div>
@@ -86,6 +99,7 @@ export function NoteForm(){
                             type="radio" 
                             name="visibility" 
                             value="private"
+                            onChange={(e)=> setInputVis(e.target.value)}
                         /> 
                         <label>Private</label>
                     </div>
@@ -111,8 +125,7 @@ export function NoteForm(){
                         name="topic_id"
                         value={selectOptions}
                     />
-                    <BaseButton type="submit">Create</BaseButton>
-                    
+                    <BaseButton type="submit">Create</BaseButton>      
                 </Form>
         </div>
     )

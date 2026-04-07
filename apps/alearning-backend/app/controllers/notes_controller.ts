@@ -5,6 +5,7 @@ import { inject } from '@adonisjs/core'
 import Note from '#models/note';
 import Tag from '#models/tag';
 import { NoteFormBody } from '@alearning/types';
+import db from '@adonisjs/lucid/services/db';
 
 @inject()
 export default class NotesController {
@@ -17,24 +18,34 @@ export default class NotesController {
 
     async createNote({request}:HttpContext){
         const noteBody = request.body() as NoteFormBody
-        const newNote = await Note.create({
-            title: noteBody.title,
-            slug: noteBody.title + crypto.randomUUID(),
-            visibility: noteBody.visibility,
-            owner: 1,
-            isShadow: false,
-            description: noteBody.description,
-            contentRaw: noteBody.contentRaw,
-            contentHtml: "test",
+        console.log(noteBody)
+        const newNote = await db.transaction(async (trx)=>{
+            const newNote = new Note()
+            newNote.title = noteBody.title
+            newNote.slug = noteBody.title + crypto.randomUUID()
+            newNote.visibility = noteBody.visibility
+            newNote.owner = 1
+            newNote.isShadow = false
+            newNote.description = noteBody.description
+            newNote.contentRaw = noteBody.contentRaw
+            newNote.contentHtml = "test"
+            
+            // ผูก model instance เข้ากับ transcation
+            newNote.useTransaction(trx)
+            await newNote.save()
+
+            // หรือ ผูก model instance เข้ากับ transcation ทันที ด้วย { client: trx }
+            for(let tag of noteBody.topic_id){
+                await Tag.create({
+                    noteId: newNote.id,
+                    topicId: tag
+                }, { client: trx })
+            }
+           
+            return newNote
+
         })
 
-        for(let tag of noteBody.topic_id){
-            const addTag = await Tag.create({
-                noteId: newNote.id,
-                topicId: tag
-            })
-        }
-        
         return newNote
     }
 }

@@ -14,8 +14,7 @@ export interface NoteResponse{
 
 export interface NoteFormBody{
     title: string
-    visibility: "public" | "private"
-    // owner: number
+    visibility: string
     description: string
     contentRaw: string
     topic_id: number[]

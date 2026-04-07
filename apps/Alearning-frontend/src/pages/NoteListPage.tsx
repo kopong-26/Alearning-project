@@ -1,4 +1,4 @@
-import { NoteList } from "../features/NoteList"
+import { NoteList } from "../features/note/components/NoteList"
 import { BaseButton } from "../components/BaseComponents/BaseButton"
 import { useRouteLoaderData, Link } from "react-router"
 
