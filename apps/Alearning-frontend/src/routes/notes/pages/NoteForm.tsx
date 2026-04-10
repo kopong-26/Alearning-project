@@ -1,9 +1,9 @@
 import AsyncCreatableSelect from "react-select/async-creatable"
-import { Input } from "../components/BaseComponents/Input"
-import { createItem, getItems } from "../utils/fetchUtils"
+import { Input } from "../../../components/BaseComponents/Input"
+import { createItem, getItems } from "../../../utils/fetchUtils"
 import { useState, type SyntheticEvent } from "react"
 import type { MultiValue } from "react-select"
-import { BaseButton } from "../components/BaseComponents/BaseButton"
+import { BaseButton } from "../../../components/BaseComponents/BaseButton"
 import { Form, useSubmit} from "react-router";
 
 interface TopicOption {
@@ -124,6 +124,9 @@ export function NoteForm(){
                         }}
                         name="topic_id"
                         value={selectOptions}
+                        isValidNewOption={(inputValue) => {
+                            return inputValue.trim().length > 0;
+                        }}
                     />
                     <BaseButton type="submit">Create</BaseButton>      
                 </Form>

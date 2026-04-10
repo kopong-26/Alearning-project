@@ -4,4 +4,5 @@ import router from "@adonisjs/core/services/router";
 router.group(()=>{
     router.get('/notes', [NotesController, 'getPublicNotes'])
     router.post('/notes', [NotesController, 'createNote'])
+    router.delete('/notes/:id', [NotesController, 'deleteNote'])
 })

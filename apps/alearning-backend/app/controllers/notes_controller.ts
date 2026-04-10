@@ -18,7 +18,7 @@ export default class NotesController {
 
     async createNote({request}:HttpContext){
         const noteBody = request.body() as NoteFormBody
-        console.log(noteBody)
+    
         const newNote = await db.transaction(async (trx)=>{
             const newNote = new Note()
             newNote.title = noteBody.title
@@ -47,5 +47,14 @@ export default class NotesController {
         })
 
         return newNote
+    }
+
+    async deleteNote({params}:HttpContext){
+        const noteId = params.id
+
+        const delNote = await Note.query().where('id', noteId).first()
+        await delNote?.delete()
+        
+        return delNote
     }
 }

@@ -29,3 +29,14 @@ export async function createItem(url:string, body: Record<string, string | numbe
     }catch(e){ console.log(e) }
 }
 
+export async function deleteItem(url:string) {
+    try{
+        const response = await fetch(url, {
+            method: "DELETE"
+        })
+
+        const data = await response.json()
+        return data
+    }catch(e){console.log(e)}
+}
+

@@ -30,11 +30,11 @@ export function Header({className=""}){
                     stroke="currentColor" 
                     className="size-4"
                 >
-                <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" 
-                />
+                    <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" 
+                    />
                 </svg>
             </button>
             <img src="/logo.jpg" alt="logo" width="773" height="752" className="w-8 h-8 shrink-0" />

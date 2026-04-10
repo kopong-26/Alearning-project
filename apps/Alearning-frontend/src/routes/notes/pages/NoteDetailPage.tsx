@@ -1,13 +1,11 @@
 import { useRouteLoaderData, useParams } from "react-router"
-import { BaseButton } from "../components/BaseComponents/BaseButton";
+import { BaseButton } from "../../../components/BaseComponents/BaseButton";
 import type { NoteResponse } from "@alearning/types";
 
 
 export function NoteDetailPage(){
     const { id } = useParams()
     const {notes} = useRouteLoaderData("notes-data") as { notes: NoteResponse[] }
-    console.log(id)
-    console.log(notes)
 
     let note = notes.find((note) => String(note.id) === String(id))
     

@@ -1,6 +1,7 @@
-import { NoteList } from "../features/note/components/NoteList"
-import { BaseButton } from "../components/BaseComponents/BaseButton"
+import { NoteList } from "../../../features/note/components/NoteList"
+import { BaseButton } from "../../../components/BaseComponents/BaseButton"
 import { useRouteLoaderData, Link } from "react-router"
+import { LinkButton } from "../../../components/BaseComponents/LinkButton"
 
 
 export function NoteListPage(){
@@ -10,7 +11,7 @@ export function NoteListPage(){
         <>
             <div className="flex justify-end mb-6 mr-4 gap-2">
                 <BaseButton> Sort </BaseButton>
-                <Link to="/notes/form"> <BaseButton> New </BaseButton> </Link>
+                <LinkButton to="/notes/form">New</LinkButton>
             </div>
             <NoteList notes={notes}></NoteList>
             
