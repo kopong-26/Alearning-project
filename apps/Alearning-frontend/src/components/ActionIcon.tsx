@@ -2,6 +2,7 @@ import { Fragment, useState } from "react"
 
 interface ActionIconProps{
     items: Item[]
+    className?: string
 }
 
 interface Item{
@@ -10,11 +11,11 @@ interface Item{
     action: ()=>void
 }
 
-export function ActionIcon({items}: ActionIconProps){
+export function ActionIcon({items, className=""}: ActionIconProps){
     const [isClick, setIsClick] = useState(false)
 
     return (
-        <div className="relative">
+        <div className={`relative ${className}`}>
             <svg 
                 xmlns="http://www.w3.org/2000/svg" 
                 fill="none" viewBox="0 0 24 24" 

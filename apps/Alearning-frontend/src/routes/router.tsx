@@ -2,34 +2,45 @@ import { createBrowserRouter, redirect } from "react-router";
 import { MainLayout } from "../layouts/MainLayout";
 import { NoteListPage } from "./notes/pages/NoteListPage";
 import { NoteDetailPage } from "./notes/pages/NoteDetailPage";
-import { NoteForm } from "./notes/pages/NoteForm";
-import { notesAction, notesLoader } from "./notes/notes";
-import { noteAction } from "./notes/note";
+import { NoteFormPage } from "./notes/pages/NoteFormPage";
+import { createNoteAction, deleteNoteFetcher, getNoteByIdLoader, getNotesLoader, noteAction } from "./notes/loaderAction";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    loader: () => {
-      return redirect("/notes"); 
-    }
-  },
-  {
-    path: "/notes",
-    id: "notes-data",
-    loader: notesLoader,
     Component: MainLayout,
+    errorElement: <h1>server ไม่ทำงาน</h1>,
     children: [
-      {index: true, Component: NoteListPage},
       {
-        path: ":id", 
-        Component: NoteDetailPage,
-        action: noteAction
+        index: true,
+        loader: () => { return redirect("/notes"); }
       },
       {
-        path: "form", 
-        Component: NoteForm,
-        action: notesAction
-      }
+        path: "notes",
+        // id: "notes-data",
+        loader: getNotesLoader,
+        action: createNoteAction,
+        Component: NoteListPage
+      },
+      {
+        path: "notes/:id", 
+        Component: NoteDetailPage,
+        action: noteAction,
+        loader: getNoteByIdLoader
+      },
+      {
+        path: "notes/create", 
+        Component: NoteFormPage,
+      },
+      {
+        path: "notes/:id/edit",
+        Component: NoteFormPage,
+        loader: getNoteByIdLoader
+      },
     ]
+  },
+  {
+    path: "/api/notes/:id/delete",
+    action: deleteNoteFetcher
   }
-]);
+])

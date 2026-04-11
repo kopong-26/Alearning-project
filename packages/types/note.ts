@@ -10,6 +10,7 @@ export interface NoteResponse{
     contentHtml: string | null
     createdAt: string
     updatedAt: string
+    topics: any[]
 }
 
 export interface NoteFormBody{

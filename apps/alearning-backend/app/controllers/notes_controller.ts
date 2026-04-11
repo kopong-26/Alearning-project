@@ -1,19 +1,24 @@
 import type { HttpContext } from '@adonisjs/core/http'
 
-import { NoteService } from "#services/note_service";
-import { inject } from '@adonisjs/core'
+// import { NoteService } from "#services/note_service";
+// import { inject } from '@adonisjs/core'
 import Note from '#models/note';
 import Tag from '#models/tag';
 import { NoteFormBody } from '@alearning/types';
 import db from '@adonisjs/lucid/services/db';
 
-@inject()
+// @inject()
 export default class NotesController {
     // private noteService: NoteService = new NoteService()
-    constructor(private noteService: NoteService) {}
+    // constructor(private noteService: NoteService) {}
 
     async getPublicNotes(){
-        return this.noteService.getPublicNotes()
+        return await Note.query().where('visibility', 'public').where('isShadow', false).preload('topics')
+    }
+
+    async getNoteById({params}:HttpContext){
+        const noteId = params.id
+        return await Note.query().where('id',noteId).preload('topics').first()
     }
 
     async createNote({request}:HttpContext){
@@ -28,7 +33,7 @@ export default class NotesController {
             newNote.isShadow = false
             newNote.description = noteBody.description
             newNote.contentRaw = noteBody.contentRaw
-            newNote.contentHtml = "test"
+            newNote.contentHtml = "contentHtml \n" + noteBody.contentRaw
             
             // ผูก model instance เข้ากับ transcation
             newNote.useTransaction(trx)
@@ -56,5 +61,9 @@ export default class NotesController {
         await delNote?.delete()
         
         return delNote
+    }
+
+    async editNote({params}:HttpContext){
+        
     }
 }

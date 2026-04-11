@@ -1,6 +1,7 @@
 import { useState } from "react"
-import { BaseButton } from "./BaseComponents/BaseButton"
+import { Button } from "./BaseComponents/Button"
 import { Input } from "./BaseComponents/Input"
+import { Link } from "react-router"
 
 export function Header({className=""}){
     const [openMenu, setOpenMenu] = useState(false)
@@ -44,7 +45,7 @@ export function Header({className=""}){
                 </h1>
             <Input type="text" name="search" />
             </div>           
-            <BaseButton>Sign in</BaseButton>
+            <Button>Sign in</Button>
         </header>
         {/* Sidebar */}
             {openMenu && (
@@ -64,9 +65,13 @@ export function Header({className=""}){
                                 menuList.map((menu) => {   
                                     return (
                                         <li key={menu.name}>
-                                            <a href={menu.link} className="block px-3 py-2 rounded-md hover:bg-gray-100">
+                                            <Link 
+                                                to={menu.link} 
+                                                onClick={() => setOpenMenu(false)} 
+                                                className="block px-3 py-2 rounded-md hover:bg-gray-100"
+                                            >
                                                 {menu.name}
-                                            </a>
+                                            </Link>
                                         </li>
                                     )       
                                   }   

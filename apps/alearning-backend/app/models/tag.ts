@@ -1,5 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
+import Note from './note.js'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import Topic from './topic.js'
 
 export default class Tag extends BaseModel {
   @column({ isPrimary: true })
@@ -16,4 +19,10 @@ export default class Tag extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  @belongsTo(()=> Note)
+  declare note: BelongsTo<typeof Note>
+
+  @belongsTo(()=> Topic)
+  declare topic: BelongsTo<typeof Topic>
 }

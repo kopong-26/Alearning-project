@@ -8,7 +8,7 @@ interface ButtonProps {
   onClick?: ()=> void
 }
 
-export function BaseButton({children, className= "", disabled, type="button", onClick}: ButtonProps){
+export function Button({children, className= "", disabled, type="button", onClick}: ButtonProps){
     return <button 
               type={type}
               className={`px-4 py-1.25 h-8 text-sm border border-main-contrast 

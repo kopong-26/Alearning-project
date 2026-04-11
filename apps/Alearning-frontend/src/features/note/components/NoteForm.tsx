@@ -3,8 +3,10 @@ import { Input } from "../../../components/BaseComponents/Input"
 import { createItem, getItems } from "../../../utils/fetchUtils"
 import { useState, type SyntheticEvent } from "react"
 import type { MultiValue } from "react-select"
-import { BaseButton } from "../../../components/BaseComponents/BaseButton"
+import { Button } from "../../../components/BaseComponents/Button"
 import { Form, useSubmit} from "react-router";
+import type { NoteFormBody} from "@alearning/types"
+
 
 interface TopicOption {
   label: string;
@@ -12,13 +14,20 @@ interface TopicOption {
   __isNew__?: boolean;
 }
 
-export function NoteForm(){
-    const [inputTitle, setInputTitle] = useState("")
-    const [inputDesc, setInputDesc] = useState("")
-    const [inputContent, setInputContent] = useState("")
-    const [inputVis, setInputVis] = useState("")
-    const [selectOptions, setSelectOptions] = useState<MultiValue<TopicOption>>([])
+interface NoteFormProps{
+    note?: NoteFormBody
+}
+
+export function NoteForm({note}: NoteFormProps){
     const submit = useSubmit()
+    
+    const [inputTitle, setInputTitle] = useState(note? note.title : "")
+    const [inputDesc, setInputDesc] = useState(note? note.description : "")
+    const [inputContent, setInputContent] = useState(note? note.contentRaw : "")
+    const [inputVis, setInputVis] = useState(note? note.visibility : "")
+    const [selectOptions, setSelectOptions] = useState<MultiValue<TopicOption>>([])
+
+    
     
     async function loadOptions(searchValue:string) {
         const params:{search?: string} = {}
@@ -36,6 +45,7 @@ export function NoteForm(){
     }
 
     async function handleTopic(e: SyntheticEvent){
+
         e.preventDefault()
         const newOptions = selectOptions.filter((option)=> option["__isNew__"])
                                         .map((option)=> ({name: option.value.trim()}))
@@ -47,6 +57,7 @@ export function NoteForm(){
             const newTopic = await createItem(import.meta.env.VITE_TOPIC_API,newOption)
             newTopics.push(newTopic)
         }
+
         const topic_id = newTopics.map((topic)=> topic.id).concat(oldOptions)
 
         const payload = {
@@ -57,14 +68,14 @@ export function NoteForm(){
             topic_id: topic_id
         }
 
-        submit(payload, {method: "post", action:"/notes/form", encType: "application/json"})
+        submit(payload, {method: "post", action:"/notes", encType: "application/json"})
         
     }
     
     return (
         <div className="m-6 pb-50">
                 <h2 className="text-2xl font-semibold mb-3">Create Note</h2>
-                <Form className="flex flex-col gap-1.5" method="post" onSubmit={handleTopic}>
+                <Form className="flex flex-col gap-1.5" onSubmit={handleTopic}>
                     <label className="font-semibold">Title</label>
                     <Input 
                         type="text" 
@@ -90,6 +101,7 @@ export function NoteForm(){
                             name="visibility" 
                             value="public"
                             onChange={(e)=> setInputVis(e.target.value)}
+                            checked={inputVis === "public"}
 
                         /> 
                         <label>Public</label>
@@ -100,6 +112,7 @@ export function NoteForm(){
                             name="visibility" 
                             value="private"
                             onChange={(e)=> setInputVis(e.target.value)}
+                            checked={inputVis === "private"}
                         /> 
                         <label>Private</label>
                     </div>
@@ -128,7 +141,7 @@ export function NoteForm(){
                             return inputValue.trim().length > 0;
                         }}
                     />
-                    <BaseButton type="submit">Create</BaseButton>      
+                    <Button type="submit">Create</Button>      
                 </Form>
         </div>
     )
