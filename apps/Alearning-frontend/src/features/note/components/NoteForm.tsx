@@ -5,7 +5,7 @@ import { useState, type SyntheticEvent } from "react"
 import type { MultiValue } from "react-select"
 import { Button } from "../../../components/BaseComponents/Button"
 import { Form, useSubmit} from "react-router";
-import type { NoteFormBody} from "@alearning/types"
+import type { NoteResponse} from "@alearning/types"
 
 
 interface TopicOption {
@@ -15,17 +15,27 @@ interface TopicOption {
 }
 
 interface NoteFormProps{
-    note?: NoteFormBody
+    note?: NoteResponse
 }
 
 export function NoteForm({note}: NoteFormProps){
     const submit = useSubmit()
+    let topics = [] as MultiValue<TopicOption>
+
+    if(note){
+        topics = note.topics.map((topic: any) => (
+                {
+                    value: topic.id,
+                    label: topic.name
+                }
+        ))
+    } 
     
     const [inputTitle, setInputTitle] = useState(note? note.title : "")
     const [inputDesc, setInputDesc] = useState(note? note.description : "")
     const [inputContent, setInputContent] = useState(note? note.contentRaw : "")
-    const [inputVis, setInputVis] = useState(note? note.visibility : "")
-    const [selectOptions, setSelectOptions] = useState<MultiValue<TopicOption>>([])
+    const [inputVis, setInputVis] = useState(note? note.visibility : "public")
+    const [selectOptions, setSelectOptions] = useState<MultiValue<TopicOption>>(note? topics: [])
 
     
     
@@ -45,7 +55,6 @@ export function NoteForm({note}: NoteFormProps){
     }
 
     async function handleTopic(e: SyntheticEvent){
-
         e.preventDefault()
         const newOptions = selectOptions.filter((option)=> option["__isNew__"])
                                         .map((option)=> ({name: option.value.trim()}))
@@ -68,7 +77,9 @@ export function NoteForm({note}: NoteFormProps){
             topic_id: topic_id
         }
 
-        submit(payload, {method: "post", action:"/notes", encType: "application/json"})
+        if(!note){submit(payload, {method: "POST", action:"/notes", encType: "application/json"})}
+        else{submit(payload, {method: "PUT", action:`/notes/${note!.id}`, encType: "application/json"})}
+        
         
     }
     

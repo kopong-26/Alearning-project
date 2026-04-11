@@ -40,3 +40,17 @@ export async function deleteItem(url:string) {
     }catch(e){console.log(e)}
 }
 
+export async function editItem(url:string, body: Record<string, string | number | any[]>){
+    try{ 
+        const response = await fetch(url, { 
+            method: 'PUT', 
+            body: JSON.stringify(body),
+            headers: {
+                'Content-Type': 'application/json', 
+                'Accept': 'application/json' 
+            },
+        })
+        const data = await response.json()
+        return data
+    }catch(e){ console.log(e) }
+}

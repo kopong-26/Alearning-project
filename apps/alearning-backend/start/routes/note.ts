@@ -6,4 +6,5 @@ router.group(()=>{
     router.get('/notes/:id', [NotesController, 'getNoteById'])
     router.post('/notes', [NotesController, 'createNote'])
     router.delete('/notes/:id', [NotesController, 'deleteNote'])
+    router.put('/notes/:id', [NotesController, 'editNote'])
 })

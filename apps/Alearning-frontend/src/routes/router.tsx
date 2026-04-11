@@ -13,6 +13,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
+        element: <></>,
         loader: () => { return redirect("/notes"); }
       },
       {

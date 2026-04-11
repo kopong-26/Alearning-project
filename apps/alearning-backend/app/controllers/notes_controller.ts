@@ -26,6 +26,7 @@ export default class NotesController {
     
         const newNote = await db.transaction(async (trx)=>{
             const newNote = new Note()
+            
             newNote.title = noteBody.title
             newNote.slug = noteBody.title + crypto.randomUUID()
             newNote.visibility = noteBody.visibility
@@ -63,7 +64,42 @@ export default class NotesController {
         return delNote
     }
 
-    async editNote({params}:HttpContext){
-        
+    async editNote({params, request}:HttpContext){
+        const noteBody = request.body()
+        const noteId = params.id
+
+        const editedNote = await db.transaction(async (trx)=>{
+
+            let note = await Note.query().where('id',noteId).first()
+           
+            note!.title = noteBody.title
+            note!.slug = noteBody.title + crypto.randomUUID()
+            note!.visibility = noteBody.visibility
+            note!.isShadow = false
+            note!.description = noteBody.description
+            note!.contentRaw = noteBody.contentRaw
+            note!.contentHtml = "contentHtml \n" + noteBody.contentRaw
+
+            note?.useTransaction(trx)
+            await note?.save()
+
+            const tags = await Tag.query().where('note_id', noteId)
+            tags.forEach(async(tag)=> {
+                tag.useTransaction(trx)
+                await tag.delete()
+            })
+            
+            for(let tag of noteBody.topic_id){
+                    await Tag.create({
+                        noteId: note.id,
+                        topicId: tag
+                    }, { client: trx })
+            }
+
+            return note
+        })
+        return editedNote
     }
+
+
 }

@@ -1,5 +1,5 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
-import { deleteItem } from "../../utils/fetchUtils";
+import { deleteItem, editItem } from "../../utils/fetchUtils";
 import { redirect } from "react-router";
 import { getNotes } from "../../features/note/api/get-notes";
 import { createNote } from "../../features/note/api/create-note";
@@ -13,7 +13,10 @@ export const noteAction = async({request,params}:ActionFunctionArgs)=>{
         return redirect('/notes')
     }
     if(request.method === 'PUT' ){
-        console.log("click update")
+        const noteId = params.id
+        const payload = await request.json()
+        await editItem(`${import.meta.env.VITE_NOTE_API}/${noteId}`, payload)
+        return redirect(`/notes/${noteId}`)
     }          
 }
 

@@ -1,4 +1,4 @@
-import { useSubmit, useLoaderData } from "react-router"
+import { useSubmit, useLoaderData, Navigate, useNavigate } from "react-router"
 import { Button } from "../../../components/BaseComponents/Button";
 import type { NoteResponse } from "@alearning/types";
 import { ActionIcon } from "../../../components/ActionIcon";
@@ -6,6 +6,7 @@ import { ActionIcon } from "../../../components/ActionIcon";
 
 export function NoteDetailPage(){
     const submit = useSubmit()
+    const navigate = useNavigate()
     const {note} = useLoaderData() as {note: NoteResponse}
 
     const items = [
@@ -21,10 +22,7 @@ export function NoteDetailPage(){
     }
 
     function updateHadle(){
-        submit(null, {
-            action: `/notes/${note?.id}`,
-            method: "PUT"
-        })
+        navigate(`/notes/${note.id}/edit`)
     }
     
     return (
