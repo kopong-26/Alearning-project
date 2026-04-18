@@ -2,8 +2,14 @@ import { useState } from "react"
 import { Button } from "./BaseComponents/Button"
 import { Input } from "./BaseComponents/Input"
 import { Link } from "react-router"
+import { ActionIcon } from "./ActionIcon"
 
 export function Header({className=""}){
+    const [isAuth, setIsAuth] = useState(true)
+    const items = [
+                {label: "Edit", key:"edit", action: ()=>{}},
+                {label: "Delete", key:"delete", action: ()=>{}}
+            ]
     const [openMenu, setOpenMenu] = useState(false)
     const menuList = [{
         name: "Home",
@@ -41,11 +47,12 @@ export function Header({className=""}){
             <img src="/logo.jpg" alt="logo" width="773" height="752" className="w-8 h-8 shrink-0" />
             <div className="grow shrink flex gap-2 justify-between">
                 <h1 className="hidden sm:block font-sans text-xl font-semibold cursor-pointer">
-                    Alearning
+                    <Link to="/">Alearning</Link>
                 </h1>
             <Input type="text" name="search" />
             </div>           
-            <Button>Sign in</Button>
+            {!isAuth && <Button>Sign in</Button>}
+            {isAuth && <ActionIcon icon="profile" items={items} />}
         </header>
         {/* Sidebar */}
             {openMenu && (

@@ -1,10 +1,10 @@
 import { Link, useFetcher, useNavigate } from "react-router";
-import type { NoteResponse} from '@alearning/types';
 import { ActionIcon } from "../../../components/ActionIcon";
 import { Button } from "../../../components/BaseComponents/Button";
+import type { Note } from "../types/note.types";
 
 interface NoteListProps {
-    notes: NoteResponse[]; 
+    notes: Note[]; 
 }
 
 export function NoteList({notes}: NoteListProps){

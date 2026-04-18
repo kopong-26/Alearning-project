@@ -5,7 +5,7 @@ import { useState, type SyntheticEvent } from "react"
 import type { MultiValue } from "react-select"
 import { Button } from "../../../components/BaseComponents/Button"
 import { Form, useSubmit} from "react-router";
-import type { NoteResponse} from "@alearning/types"
+import type { Note } from "../types/note.types"
 
 
 interface TopicOption {
@@ -15,7 +15,7 @@ interface TopicOption {
 }
 
 interface NoteFormProps{
-    note?: NoteResponse
+    note?: Note
 }
 
 export function NoteForm({note}: NoteFormProps){
@@ -152,7 +152,7 @@ export function NoteForm({note}: NoteFormProps){
                             return inputValue.trim().length > 0;
                         }}
                     />
-                    <Button type="submit">Create</Button>      
+                    <Button type="submit">{note? "Update":"Create"}</Button>      
                 </Form>
         </div>
     )

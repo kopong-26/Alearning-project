@@ -22,7 +22,7 @@ export default class NotesController {
     }
 
     async createNote({request}:HttpContext){
-        const noteBody = request.body() as NoteFormBody
+        const noteBody = request.body() 
     
         const newNote = await db.transaction(async (trx)=>{
             const newNote = new Note()
@@ -71,33 +71,36 @@ export default class NotesController {
         const editedNote = await db.transaction(async (trx)=>{
 
             let note = await Note.query().where('id',noteId).first()
-           
-            note!.title = noteBody.title
-            note!.slug = noteBody.title + crypto.randomUUID()
-            note!.visibility = noteBody.visibility
-            note!.isShadow = false
-            note!.description = noteBody.description
-            note!.contentRaw = noteBody.contentRaw
-            note!.contentHtml = "contentHtml \n" + noteBody.contentRaw
-
-            note?.useTransaction(trx)
-            await note?.save()
-
-            const tags = await Tag.query().where('note_id', noteId)
-            tags.forEach(async(tag)=> {
-                tag.useTransaction(trx)
-                await tag.delete()
-            })
             
-            for(let tag of noteBody.topic_id){
-                    await Tag.create({
-                        noteId: note.id,
-                        topicId: tag
-                    }, { client: trx })
-            }
+            if(note){
+                note!.title = noteBody.title
+                note!.slug = noteBody.title + crypto.randomUUID()
+                note!.visibility = noteBody.visibility
+                note!.isShadow = false
+                note!.description = noteBody.description
+                note!.contentRaw = noteBody.contentRaw
+                note!.contentHtml = "contentHtml \n" + noteBody.contentRaw
 
-            return note
+                note?.useTransaction(trx)
+                await note?.save()
+
+                const tags = await Tag.query().where('note_id', noteId)
+                tags.forEach(async(tag)=> {
+                    tag.useTransaction(trx)
+                    await tag.delete()
+                })
+                
+                for(let tag of noteBody.topic_id){
+                        await Tag.create({
+                            noteId: note.id,
+                            topicId: tag
+                        }, { client: trx })
+                }
+
+                return note               
+            }
         })
+
         return editedNote
     }
 

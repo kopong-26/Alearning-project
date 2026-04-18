@@ -1,4 +1,4 @@
-import { useSubmit, useLoaderData, Navigate, useNavigate } from "react-router"
+import { useSubmit, useLoaderData, useNavigate } from "react-router"
 import { Button } from "../../../components/BaseComponents/Button";
 import type { NoteResponse } from "@alearning/types";
 import { ActionIcon } from "../../../components/ActionIcon";
