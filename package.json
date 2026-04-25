@@ -8,6 +8,10 @@
   "scripts": {
     "dev:frontend": "npm run dev --workspace=apps/alearning-frontend",
     "dev:api": "npm run mock-api --workspace=apps/alearning-frontend",
-    "dev:backend": "npm run dev --workspace=apps/alearning-backend"
+    "dev:backend": "npm run dev --workspace=apps/alearning-backend",
+
+    "build:frontend": "npm run build --workspace=apps/alearning-frontend",
+    "build:backend": "npm run build --workspace=apps/alearning-backend"
+
   }
 }
