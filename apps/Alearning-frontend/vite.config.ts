@@ -11,8 +11,8 @@ export default defineConfig({
   server:{
     proxy:{
       '/api':{
-        target: 'http://localhost:3333',
-        // changeOrigin: true,
+        target: 'http://adonisjs:3333',
+        changeOrigin: true,
         // เพิ่มบรรทัดนี้: เพื่อลบ /api ออกก่อนส่งไปที่ server
         rewrite: (path) => path.replace(/^\/api/, '')
       }
