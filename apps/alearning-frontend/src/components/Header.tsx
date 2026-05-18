@@ -1,11 +1,13 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { Button } from "./BaseComponents/Button"
 import { Input } from "./BaseComponents/Input"
 import { Link } from "react-router"
 import { ActionIcon } from "./ActionIcon"
+import { LinkButton } from "./BaseComponents/LinkButton"
+import AuthContext from "../features/auth/contexts/AuthProvider"
 
 export function Header({className=""}){
-    const [isAuth, setIsAuth] = useState(true)
+    const {auth} = useContext(AuthContext)
     const items = [
                 {label: "Edit", key:"edit", action: ()=>{}},
                 {label: "Delete", key:"delete", action: ()=>{}}
@@ -51,8 +53,8 @@ export function Header({className=""}){
                 </h1>
             <Input type="text" name="search" />
             </div>           
-            {!isAuth && <Button>Sign in</Button>}
-            {isAuth && <ActionIcon icon="profile" items={items} />}
+            {!auth.userId && <LinkButton to="/login">Sign in</LinkButton>}
+            {auth.userId && <ActionIcon icon="profile" items={items} />}
         </header>
         {/* Sidebar */}
             {openMenu && (

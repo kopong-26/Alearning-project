@@ -13,7 +13,6 @@
   "dependencies": {
     "@alearning/types": "^1.0.0",
     "@tailwindcss/vite": "^4.2.0",
-    "daisyui": "^5.5.19",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-markdown": "^10.1.0",

@@ -22,8 +22,10 @@ export default class TopicsController {
         return query.exec()
     }
 
-    async createTopic({request}:HttpContext){
+    // {"name": ""}
+    async createTopic({request, response}:HttpContext){
         const body = request.body()
-        return await Topic.create(body)
+        const newTopic = await Topic.create(body)
+        response.created(newTopic)
     }
 }

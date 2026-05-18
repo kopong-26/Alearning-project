@@ -1,11 +1,12 @@
 import AsyncCreatableSelect from "react-select/async-creatable"
 import { Input } from "../../../components/BaseComponents/Input"
-import { createItem, getItems } from "../../../utils/fetchUtils"
 import { useState, type SyntheticEvent } from "react"
 import type { MultiValue } from "react-select"
 import { Button } from "../../../components/BaseComponents/Button"
 import { Form, useSubmit} from "react-router";
 import type { Note } from "../types/note.types"
+import { createTopic } from "../../topic/api/create-topic"
+import { getTopicByName } from "../../topic/api/get-topic"
 
 
 interface TopicOption {
@@ -43,7 +44,7 @@ export function NoteForm({note}: NoteFormProps){
         const params:{search?: string} = {}
         params.search = searchValue
         try{
-            const data = await getItems(`${import.meta.env.VITE_TOPIC_API}`,params)
+            const data = await getTopicByName(params)
             const options = data.map((topic: any) => (
                 {
                     value: topic.id,
@@ -63,7 +64,7 @@ export function NoteForm({note}: NoteFormProps){
                                         .map((option)=> option.value)
         const newTopics = []
         for(let newOption of newOptions){
-            const newTopic = await createItem(import.meta.env.VITE_TOPIC_API,newOption)
+            const newTopic = await createTopic(newOption)
             newTopics.push(newTopic)
         }
 

@@ -21,7 +21,7 @@ export default class NotesController {
         return await Note.query().where('id',noteId).preload('topics').first()
     }
 
-    async createNote({request}:HttpContext){
+    async createNote({request, response}:HttpContext){
         const noteBody = request.body() 
     
         const newNote = await db.transaction(async (trx)=>{
@@ -52,7 +52,7 @@ export default class NotesController {
 
         })
 
-        return newNote
+        return response.created(newNote)
     }
 
     async deleteNote({params}:HttpContext){

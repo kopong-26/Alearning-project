@@ -44,5 +44,10 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 
-  static accessTokens = DbAccessTokensProvider.forModel(User)
+  static refreshTokens = DbAccessTokensProvider.forModel(User, {
+    prefix: 'rt_',
+    table: 'jwt_refresh_tokens',
+    type: 'jwt_refresh_token',
+    tokenSecretLength: 40,
+  })
 }

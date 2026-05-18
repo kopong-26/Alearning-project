@@ -2,6 +2,8 @@ import { useSubmit, useLoaderData, useNavigate } from "react-router"
 import { Button } from "../../../components/BaseComponents/Button";
 import type { NoteResponse } from "@alearning/types";
 import { ActionIcon } from "../../../components/ActionIcon";
+import Markdown from "react-markdown";
+import remarkGfm from 'remark-gfm'
 
 
 export function NoteDetailPage(){
@@ -13,6 +15,7 @@ export function NoteDetailPage(){
         {label: "Edit", key:"edit", action: updateHadle },
         {label: "Delete", key:"delete", action: deleteHandle}
     ]
+
 
     function deleteHandle(){
         submit(null, {
@@ -35,7 +38,9 @@ export function NoteDetailPage(){
                 </Button>
                 <ActionIcon items={items} className="ml-auto" ></ActionIcon>
             </div>
-            <p className="text-base mt-4">{note?.contentHtml}</p>
+            <p className="text-base mt-4">This is note.html {note?.contentHtml}</p>
+            <hr />
+            <Markdown remarkPlugins={[remarkGfm]}>{note.contentRaw}</Markdown>
         </div>
 
         

@@ -1,5 +1,5 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
-import { deleteItem, editItem } from "../../utils/fetchUtils";
+import { fetchDel, fetchPut } from "../../utils/fetchUtils";
 import { redirect } from "react-router";
 import { getNotes } from "../../features/note/api/get-notes";
 import { createNote } from "../../features/note/api/create-note";
@@ -9,13 +9,13 @@ import { getNoteById } from "../../features/note/api/get-note";
 export const noteAction = async({request,params}:ActionFunctionArgs)=>{ 
     if(request.method === 'DELETE' ){
         const noteId = params.id
-        await deleteItem(`${import.meta.env.VITE_NOTE_API}/${noteId}`)
+        await fetchDel(`${import.meta.env.VITE_NOTE_API}/${noteId}`)
         return redirect('/notes')
     }
     if(request.method === 'PUT' ){
         const noteId = params.id
         const payload = await request.json()
-        await editItem(`${import.meta.env.VITE_NOTE_API}/${noteId}`, payload)
+        await fetchPut(`${import.meta.env.VITE_NOTE_API}/${noteId}`, payload)
         return redirect(`/notes/${noteId}`)
     }          
 }
@@ -23,7 +23,7 @@ export const noteAction = async({request,params}:ActionFunctionArgs)=>{
 // DELETE /api/notes/:id/delete
 export const deleteNoteFetcher = async({params}:ActionFunctionArgs)=>{
     const noteId = params.id
-    await deleteItem(`${import.meta.env.VITE_NOTE_API}/${noteId}`)
+    await fetchDel(`${import.meta.env.VITE_NOTE_API}/${noteId}`)
 
 }
 

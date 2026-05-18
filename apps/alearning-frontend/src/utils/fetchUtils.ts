@@ -1,18 +1,23 @@
-export async function getItems(url:string, params?: Record<string,string> | undefined) {
+export async function fetchGet(url:string, params?: Record<string,string> | undefined) {
+    const token = localStorage.getItem('token');
     let queryString = ''
     if(params) {queryString = new URLSearchParams(params).toString()
     }
 
     try{
-        const response = await fetch(url+"?"+queryString)
-        const data = await response.json()
-        return data
+        const response = await fetch(url+"?"+queryString, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        return response
     } catch(e){
         console.log(e)
     }
 }
 
-export async function createItem(url:string, body: Record<string, string | number | any[]>){
+export async function fetchPost(url:string, body: Record<string, string | number | any[]>){
+    const token = localStorage.getItem('token');
     try{ 
         const response = await fetch(url, { 
             method: 'POST', 
@@ -21,36 +26,40 @@ export async function createItem(url:string, body: Record<string, string | numbe
                 // 1. แปะป้ายบอก Backend ว่านี่คือ JSON นะ
                 'Content-Type': 'application/json', 
                 // 2. (Optional) บอกว่า Frontend ก็ขอรับคำตอบกลับมาเป็น JSON เหมือนกัน
-                'Accept': 'application/json' 
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
         })
-        const data = await response.json()
-        return data
+        return response
     }catch(e){ console.log(e) }
 }
 
-export async function deleteItem(url:string) {
+export async function fetchDel(url:string) {
+    const token = localStorage.getItem('token');
     try{
         const response = await fetch(url, {
-            method: "DELETE"
+            method: "DELETE",
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
         })
 
-        const data = await response.json()
-        return data
+        return response
     }catch(e){console.log(e)}
 }
 
-export async function editItem(url:string, body: Record<string, string | number | any[]>){
+export async function fetchPut(url:string, body: Record<string, string | number | any[]>){
+    const token = localStorage.getItem('token');
     try{ 
         const response = await fetch(url, { 
             method: 'PUT', 
             body: JSON.stringify(body),
             headers: {
                 'Content-Type': 'application/json', 
-                'Accept': 'application/json' 
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
         })
-        const data = await response.json()
-        return data
+        return response
     }catch(e){ console.log(e) }
 }

@@ -1,6 +1,10 @@
-import { createItem } from "../../../utils/fetchUtils"
+import { fetchPost } from "../../../utils/fetchUtils"
 
 export const createNote = async(payload: Record<string, string | number | any[] >) => {
-        const notes = await createItem(import.meta.env.VITE_NOTE_API, payload)
-        return notes
+        const response = await fetchPost(import.meta.env.VITE_NOTE_API, payload)
+        
+        if(response?.status !== 201){ throw new Error}
+
+        const newNote = await response.json()
+        return newNote
 }

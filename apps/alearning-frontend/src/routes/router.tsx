@@ -4,6 +4,8 @@ import { NoteListPage } from "./notes/pages/NoteListPage";
 import { NoteDetailPage } from "./notes/pages/NoteDetailPage";
 import { NoteFormPage } from "./notes/pages/NoteFormPage";
 import { createNoteAction, deleteNoteFetcher, getNoteByIdLoader, getNotesLoader, noteAction } from "./notes/loaderAction";
+import { LoginPage } from "./login/pages/LoginPage";
+import { login } from "./login/loginAction";
 
 export const router = createBrowserRouter([
   {
@@ -39,6 +41,11 @@ export const router = createBrowserRouter([
         loader: getNoteByIdLoader
       },
     ]
+  },
+  {
+    path: '/login',
+    Component: LoginPage,
+    action: login
   },
   {
     path: "/api/notes/:id/delete",
