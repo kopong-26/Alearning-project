@@ -1,24 +1,30 @@
 import type { ActionFunctionArgs } from "react-router";
 import { redirect } from "react-router";
 import { authen } from "../../features/auth/api/authen";
+import { useAuth } from "../../stores/auth";
+import { logout } from "../../features/auth/api/logout";
 
 
-export const login = async({ request }:ActionFunctionArgs)=>{
-    let formData = await request.formData()
-    let username = formData.get("username");
-    let password = formData.get("password");
+export const loginAction = async({ request }:ActionFunctionArgs)=>{
+    const formData = await request.formData()
+    const username = formData.get("username")
+    const password = formData.get("password")
 
     const payload = {username, password} as Record<string, string | number | any[]>
     
     try{
-        const response = await authen(payload)
-        return {
-            userId: response.userId,
-            username: response.username,
-            accessTokens: response.accessTokens
-        }
+        const response = await authen(payload)    
+        useAuth.getState().login(response)
+        return redirect('/')
     } catch(e){
         return redirect('/login')
     }
     
+}
+
+export const logoutAction = async()=>{
+    const auth = useAuth.getState().auth
+    await logout(auth?.accessTokens)
+    useAuth.getState().logout()
+    return redirect("/notes")
 }

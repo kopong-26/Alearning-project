@@ -1,24 +1,19 @@
-import { useContext, useState } from "react"
-import { Button } from "./BaseComponents/Button"
+import { useState } from "react"
 import { Input } from "./BaseComponents/Input"
 import { Link } from "react-router"
-import { ActionIcon } from "./ActionIcon"
 import { LinkButton } from "./BaseComponents/LinkButton"
-import AuthContext from "../features/auth/contexts/AuthProvider"
+import { ProfileIcon } from "../features/profile/ProfileIcon"
+import { useAuth } from "../stores/auth"
 
 export function Header({className=""}){
-    const {auth} = useContext(AuthContext)
-    const items = [
-                {label: "Edit", key:"edit", action: ()=>{}},
-                {label: "Delete", key:"delete", action: ()=>{}}
-            ]
+    const {auth} = useAuth()
     const [openMenu, setOpenMenu] = useState(false)
     const menuList = [{
         name: "Home",
         link: "/"
 
     },
-{
+    {
         name: "Notes",
         link: "/notes"
 
@@ -53,12 +48,14 @@ export function Header({className=""}){
                 </h1>
             <Input type="text" name="search" />
             </div>           
-            {!auth.userId && <LinkButton to="/login">Sign in</LinkButton>}
-            {auth.userId && <ActionIcon icon="profile" items={items} />}
+            {!auth && <LinkButton to="/login">Sign in</LinkButton>}
+            {auth && <ProfileIcon />}
         </header>
         {/* Sidebar */}
+        
+            {/* FIXME: z-50 */}
             {openMenu && (
-                <div className="fixed inset-0 flex">
+                <div className="fixed inset-0 flex z-50">
 
                     {/* overlay */}
                     <div
@@ -83,8 +80,8 @@ export function Header({className=""}){
                                             </Link>
                                         </li>
                                     )       
-                                  }   
-                                )}
+                                }   
+                            )}
                         </ul> 
                     </div>
                 </div>

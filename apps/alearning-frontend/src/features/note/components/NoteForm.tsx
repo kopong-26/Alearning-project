@@ -5,8 +5,9 @@ import type { MultiValue } from "react-select"
 import { Button } from "../../../components/BaseComponents/Button"
 import { Form, useSubmit} from "react-router";
 import type { Note } from "../types/note.types"
-import { createTopic } from "../../topic/api/create-topic"
-import { getTopicByName } from "../../topic/api/get-topic"
+import { createTopic } from "../../topic/api/createTopic"
+import { getTopicByName } from "../../topic/api/getTopic"
+import { useAuth } from "../../../stores/auth"
 
 
 interface TopicOption {
@@ -22,6 +23,7 @@ interface NoteFormProps{
 export function NoteForm({note}: NoteFormProps){
     const submit = useSubmit()
     let topics = [] as MultiValue<TopicOption>
+    const {auth} = useAuth()
 
     if(note){
         topics = note.topics.map((topic: any) => (
@@ -64,7 +66,7 @@ export function NoteForm({note}: NoteFormProps){
                                         .map((option)=> option.value)
         const newTopics = []
         for(let newOption of newOptions){
-            const newTopic = await createTopic(newOption)
+            const newTopic = await createTopic(newOption, auth?.accessTokens)
             newTopics.push(newTopic)
         }
 

@@ -2,6 +2,7 @@ import { Link, useFetcher, useNavigate } from "react-router";
 import { ActionIcon } from "../../../components/ActionIcon";
 import { Button } from "../../../components/BaseComponents/Button";
 import type { Note } from "../types/note.types";
+import type { Items } from "../../../components/BaseComponents/OptionList";
 
 interface NoteListProps {
     notes: Note[]; 
@@ -16,9 +17,13 @@ export function NoteList({notes}: NoteListProps){
 
     return (
         notes.map((note)=> {
-            const items = [
-                {label: "Edit", key:"edit", action: updateHadle },
-                {label: "Delete", key:"delete", action: deleteHandle}
+            const items:Items = [
+                {
+                    options: [
+                        {label: "Edit", key:"edit", action: updateHadle },
+                        {label: "Delete", key:"delete", action: deleteHandle}
+                    ]
+                }
             ]
 
             function deleteHandle(){

@@ -1,21 +1,8 @@
-import { useContext, useEffect } from "react";
-import { Form, useActionData, useNavigate} from "react-router";
-import AuthContext from "../../../features/auth/contexts/AuthProvider";
+import { Form } from "react-router";
+
 
 export function LoginPage(){
-    const {auth, setAuth} = useContext(AuthContext)
-    const actionData = useActionData()
-    const navigate = useNavigate()
 
-    useEffect(()=>{
-        if(actionData){
-            setAuth({
-                userId: actionData.userId,
-                accessTokens: actionData.accessTokens
-            })
-            navigate("/")
-        }
-    }, [actionData])
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">

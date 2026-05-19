@@ -12,8 +12,12 @@ export function NoteDetailPage(){
     const {note} = useLoaderData() as {note: NoteResponse}
 
     const items = [
-        {label: "Edit", key:"edit", action: updateHadle },
-        {label: "Delete", key:"delete", action: deleteHandle}
+        {
+            options: [
+                {label: "Edit", key:"edit", action: updateHadle },
+                {label: "Delete", key:"delete", action: deleteHandle}
+            ]
+        }
     ]
 
 

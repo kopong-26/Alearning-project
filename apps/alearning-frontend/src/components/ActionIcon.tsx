@@ -1,5 +1,7 @@
-import { Fragment, useState } from "react"
+import {useState } from "react"
 import profile from "../assets/profile.png"
+import type { Item } from "./BaseComponents/OptionList"
+import { OptionList } from "./BaseComponents/OptionList"
 
 interface ActionIconProps{
     items: Item[]
@@ -7,11 +9,6 @@ interface ActionIconProps{
     icon?: string
 }
 
-interface Item{
-    label: string
-    key: string
-    action: ()=>void
-}
 
 export function ActionIcon({items, className="", icon="ellip"}: ActionIconProps){
     const [isClick, setIsClick] = useState(false)
@@ -43,23 +40,7 @@ export function ActionIcon({items, className="", icon="ellip"}: ActionIconProps)
 
 
             {isClick && (
-                <div className="absolute top-full right-0 border border-main-contrast bg-white
-                rounded-sm shadow-md shadow-main-contrast w-30"> 
-                    <ul>
-                        { items.map((item)=> (
-                                <Fragment key={item.key}>
-                                    <li> 
-                                        <button 
-                                            onClick={item.action}
-                                            className="w-full text-left cursor-pointer px-4 py-1.5"
-                                        >
-                                            {item.label}
-                                        </button>
-                                    </li>
-                                </Fragment>
-                        ))}
-                    </ul>
-                </div>
+                <OptionList items={items}></OptionList>
             )}
         
         </div>

@@ -6,6 +6,6 @@ export async function authen(payload: Record<string, string | number | any[]>){
     if(res?.status !== 200){ throw new Error }
 
     const data = await res.json()
-    localStorage.setItem('token', data.token)
+     
     return data
 }
