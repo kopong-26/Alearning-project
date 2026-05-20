@@ -4,7 +4,7 @@ import { redirect } from "react-router";
 import { getNotes } from "../../features/note/api/getNotes";
 import { createNote } from "../../features/note/api/createNote";
 import { getNoteById } from "../../features/note/api/getNote";
-import { useAuth } from "../../stores/auth";
+import { useAuth } from "../../features/auth/stores/authStore";
 
 //FIXME
 /////////////////////
@@ -51,9 +51,9 @@ export const getNotesLoader = async() => {
 }
 
 export const getNoteByIdLoader = async({params}: LoaderFunctionArgs) => {
-    const token = useAuth.getState().auth?.accessTokens
+    
     const id = params.id as string
     return {
-        note: await getNoteById(id, token)
+        note: await getNoteById(id)
     }
 }

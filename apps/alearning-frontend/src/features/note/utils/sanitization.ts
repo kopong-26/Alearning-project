@@ -7,13 +7,13 @@ export function mapToNote(noteResponse: NoteResponse):Note{
         title: noteResponse.title,
         slug: noteResponse.slug,
         visibility: noteResponse.visibility,
-        owner: noteResponse.owner,
+        ownerId: noteResponse.ownerId,
         isShadow: noteResponse.isShadow,
         description: noteResponse.description ?? "",
-        contentRaw: noteResponse.contentRaw ?? "",
-        contentHtml: noteResponse.contentHtml ?? "",
+        content: noteResponse.content ?? "",
         createdAt: noteResponse.createdAt,
         updatedAt: noteResponse.updatedAt,
-        topics: noteResponse.topics
+        topics: noteResponse.topics,
+        owner: noteResponse.owner,
     }
 }

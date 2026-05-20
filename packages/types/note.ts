@@ -3,20 +3,20 @@ export interface NoteResponse{
     title: string
     slug: string
     visibility: 'public' | 'private'
-    owner: number
+    ownerId: number
     isShadow: boolean
     description: string | null
-    contentRaw: string | null
-    contentHtml: string | null
+    content: string | null
     createdAt: string
     updatedAt: string
     topics: any[]
+    owner: {}
 }
 
-export interface NoteFormBody{
-    title: string
-    visibility: string
-    description: string
-    contentRaw: string
-    topic_id: number[]
-}
+// export interface NoteFormBody{
+//     title: string
+//     visibility: string
+//     description: string
+//     contentRaw: string
+//     topic_id: number[]
+// }

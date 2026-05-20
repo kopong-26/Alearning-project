@@ -6,6 +6,7 @@ import { NoteFormPage } from "./notes/pages/NoteFormPage";
 import { createNoteAction, deleteNoteFetcher, getNoteByIdLoader, getNotesLoader, noteAction } from "./notes/loaderAction";
 import { LoginPage } from "./login/pages/LoginPage";
 import { loginAction, logoutAction } from "./login/loginAction";
+import { requireAuth } from "../features/auth/api/requireAuth";
 
 export const router = createBrowserRouter([
   {
@@ -16,11 +17,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <></>,
-        loader: () => { return redirect("/notes"); }
+        loader: () => { return redirect("/notes"); },
       },
       {
         path: "notes",
-        // id: "notes-data",
         loader: getNotesLoader,
         action: createNoteAction,
         Component: NoteListPage
@@ -34,6 +34,7 @@ export const router = createBrowserRouter([
       {
         path: "notes/create", 
         Component: NoteFormPage,
+        loader: ()=>{ requireAuth() },
       },
       {
         path: "notes/:id/edit",

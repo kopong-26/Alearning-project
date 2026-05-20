@@ -4,7 +4,6 @@ import type { HttpContext } from '@adonisjs/core/http'
 // import { inject } from '@adonisjs/core'
 import Note from '#models/note';
 import Tag from '#models/tag';
-import { NoteFormBody } from '@alearning/types';
 import db from '@adonisjs/lucid/services/db';
 
 // @inject()
@@ -13,28 +12,34 @@ export default class NotesController {
     // constructor(private noteService: NoteService) {}
 
     async getPublicNotes(){
-        return await Note.query().where('visibility', 'public').where('isShadow', false).preload('topics')
+        return await Note.query().where('visibility', 'public')
+                                    .where('isShadow', false)
+                                    .preload('topics')
+                                    .preload('owner')
     }
 
     async getNoteById({params}:HttpContext){
         const noteId = params.id
-        return await Note.query().where('id',noteId).preload('topics').first()
+        return await Note.query().where('id',noteId)
+                                    .preload('topics')
+                                    .preload('owner')
+                                    .first()
     }
 
-    async createNote({request, response}:HttpContext){
+    async createNote({auth, request, response}:HttpContext){
         const noteBody = request.body() 
-    
+        const user = auth.getUserOrFail()
+       
         const newNote = await db.transaction(async (trx)=>{
             const newNote = new Note()
             
             newNote.title = noteBody.title
             newNote.slug = noteBody.title + crypto.randomUUID()
             newNote.visibility = noteBody.visibility
-            newNote.owner = 1
+            newNote.ownerId = user.id
             newNote.isShadow = false
             newNote.description = noteBody.description
-            newNote.contentRaw = noteBody.contentRaw
-            newNote.contentHtml = "contentHtml \n" + noteBody.contentRaw
+            newNote.content = noteBody.content
             
             // ผูก model instance เข้ากับ transcation
             newNote.useTransaction(trx)
@@ -78,8 +83,7 @@ export default class NotesController {
                 note!.visibility = noteBody.visibility
                 note!.isShadow = false
                 note!.description = noteBody.description
-                note!.contentRaw = noteBody.contentRaw
-                note!.contentHtml = "contentHtml \n" + noteBody.contentRaw
+                note!.content = noteBody.content
 
                 note?.useTransaction(trx)
                 await note?.save()

@@ -1,7 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, manyToMany } from '@adonisjs/lucid/orm'
-import type { ManyToMany } from '@adonisjs/lucid/types/relations'
+import { BaseModel, belongsTo, column, manyToMany } from '@adonisjs/lucid/orm'
+import type { BelongsTo, ManyToMany } from '@adonisjs/lucid/types/relations'
 import Topic from './topic.js'
+import User from './user.js'
 
 export default class Note extends BaseModel {
   @column({ isPrimary: true })
@@ -17,7 +18,7 @@ export default class Note extends BaseModel {
   declare visibility: 'public' | 'private'
 
   @column()
-  declare owner: number
+  declare ownerId: number
 
   @column()
   declare isShadow: boolean
@@ -26,10 +27,7 @@ export default class Note extends BaseModel {
   declare description: string | null
 
   @column()
-  declare contentRaw: string | null
-
-  @column()
-  declare contentHtml: string | null
+  declare content: string | null
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -40,5 +38,11 @@ export default class Note extends BaseModel {
   @manyToMany(()=> Topic, {
     pivotTable: 'tags'
   })
-    declare topics: ManyToMany<typeof Topic>
+  declare topics: ManyToMany<typeof Topic>
+
+  @belongsTo(()=> User, {
+    foreignKey: 'ownerId',
+    localKey: 'id'
+  })
+  declare owner: BelongsTo<typeof User>
 }

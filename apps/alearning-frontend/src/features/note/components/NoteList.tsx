@@ -3,17 +3,16 @@ import { ActionIcon } from "../../../components/ActionIcon";
 import { Button } from "../../../components/BaseComponents/Button";
 import type { Note } from "../types/note.types";
 import type { Items } from "../../../components/BaseComponents/OptionList";
+import { useAuth } from "../../auth/stores/authStore";
 
 interface NoteListProps {
     notes: Note[]; 
 }
 
 export function NoteList({notes}: NoteListProps){
-    // const submit = useSubmit()
-    
-    // not change url to action url
     const fetcher = useFetcher()
     const navigate  = useNavigate()
+    const {auth} = useAuth()
 
     return (
         notes.map((note)=> {
@@ -42,7 +41,7 @@ export function NoteList({notes}: NoteListProps){
                         <h3 className="text-xl font-semibold text-blue-600">
                             <Link to={`/notes/${note.id}`}>{note.title}</Link>
                         </h3>
-                        <ActionIcon items={items} />
+                        {auth?.userId === note.ownerId && <ActionIcon items={items} />}
                     </div>
                     
                     <p className="text-sm break-keep">{note.description}</p>
@@ -61,7 +60,7 @@ export function NoteList({notes}: NoteListProps){
                     </div>
                    
                     <p className="text-xs ">
-                        Author: {note.owner} | Created On: {note.createdAt}
+                        Author: {note.owner.username} | Created On: {note.createdAt}
                     </p>
                 </div>
                     

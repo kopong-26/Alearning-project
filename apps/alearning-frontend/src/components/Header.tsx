@@ -3,7 +3,7 @@ import { Input } from "./BaseComponents/Input"
 import { Link } from "react-router"
 import { LinkButton } from "./BaseComponents/LinkButton"
 import { ProfileIcon } from "../features/profile/ProfileIcon"
-import { useAuth } from "../stores/auth"
+import { useAuth } from "../features/auth/stores/authStore"
 
 export function Header({className=""}){
     const {auth} = useAuth()

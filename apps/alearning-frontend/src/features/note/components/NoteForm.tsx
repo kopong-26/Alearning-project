@@ -7,7 +7,7 @@ import { Form, useSubmit} from "react-router";
 import type { Note } from "../types/note.types"
 import { createTopic } from "../../topic/api/createTopic"
 import { getTopicByName } from "../../topic/api/getTopic"
-import { useAuth } from "../../../stores/auth"
+import { useAuth } from "../../auth/stores/authStore"
 
 
 interface TopicOption {
@@ -36,7 +36,7 @@ export function NoteForm({note}: NoteFormProps){
     
     const [inputTitle, setInputTitle] = useState(note? note.title : "")
     const [inputDesc, setInputDesc] = useState(note? note.description : "")
-    const [inputContent, setInputContent] = useState(note? note.contentRaw : "")
+    const [inputContent, setInputContent] = useState(note? note.content : "")
     const [inputVis, setInputVis] = useState(note? note.visibility : "public")
     const [selectOptions, setSelectOptions] = useState<MultiValue<TopicOption>>(note? topics: [])
 
@@ -76,7 +76,7 @@ export function NoteForm({note}: NoteFormProps){
             title: inputTitle,
             description: inputDesc,
             visibility: inputVis,
-            contentRaw: inputContent,
+            content: inputContent,
             topic_id: topic_id
         }
 
@@ -132,7 +132,7 @@ export function NoteForm({note}: NoteFormProps){
                     </div>
                     <label className="font-semibold">Content</label>
                     <textarea 
-                        name="contentRaw" 
+                        name="content" 
                         rows={6}
                         placeholder="พิมพ์เนื้อหาโน้ตของคุณที่นี่..."
                         className="w-full h-75 border border-main-contrast rounded-md px-4 py-3 text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"

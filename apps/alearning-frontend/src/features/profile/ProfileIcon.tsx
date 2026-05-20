@@ -1,7 +1,7 @@
 import { useSubmit } from "react-router";
 import { ActionIcon } from "../../components/ActionIcon";
 import type { Items } from "../../components/BaseComponents/OptionList";
-import { useAuth } from "../../stores/auth";
+import { useAuth } from "../auth/stores/authStore";
 
 export function ProfileIcon(){
     const {auth} = useAuth()

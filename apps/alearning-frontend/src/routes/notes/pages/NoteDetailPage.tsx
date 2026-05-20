@@ -1,6 +1,5 @@
 import { useSubmit, useLoaderData, useNavigate } from "react-router"
 import { Button } from "../../../components/BaseComponents/Button";
-import type { NoteResponse } from "@alearning/types";
 import { ActionIcon } from "../../../components/ActionIcon";
 import Markdown from "react-markdown";
 import remarkGfm from 'remark-gfm'
@@ -9,7 +8,7 @@ import remarkGfm from 'remark-gfm'
 export function NoteDetailPage(){
     const submit = useSubmit()
     const navigate = useNavigate()
-    const {note} = useLoaderData() as {note: NoteResponse}
+    const {note} = useLoaderData() 
 
     const items = [
         {
@@ -42,9 +41,7 @@ export function NoteDetailPage(){
                 </Button>
                 <ActionIcon items={items} className="ml-auto" ></ActionIcon>
             </div>
-            <p className="text-base mt-4">This is note.html {note?.contentHtml}</p>
-            <hr />
-            <Markdown remarkPlugins={[remarkGfm]}>{note.contentRaw}</Markdown>
+            <Markdown remarkPlugins={[remarkGfm]}>{note?.content}</Markdown>
         </div>
 
         

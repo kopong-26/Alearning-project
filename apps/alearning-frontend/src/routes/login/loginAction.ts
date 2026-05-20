@@ -1,7 +1,7 @@
 import type { ActionFunctionArgs } from "react-router";
 import { redirect } from "react-router";
 import { authen } from "../../features/auth/api/authen";
-import { useAuth } from "../../stores/auth";
+import { useAuth } from "../../features/auth/stores/authStore";
 import { logout } from "../../features/auth/api/logout";
 
 

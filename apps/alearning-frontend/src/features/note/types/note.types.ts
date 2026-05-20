@@ -3,12 +3,25 @@ export interface Note{
     title: string
     slug: string
     visibility: string
-    owner: number
+    ownerId: number
     isShadow: boolean
     description: string
-    contentRaw: string
-    contentHtml: string
+    content: string
     createdAt: string
     updatedAt: string
     topics: any[]
+    owner: Owner
+}
+
+interface Owner{
+    id: number
+    username: string
+    email: string
+    role: string
+    createdAt: string
+    updatedAt: string
+    isActive: number
+    createdBy: number
+    firstname: string
+    lastname: string
 }
