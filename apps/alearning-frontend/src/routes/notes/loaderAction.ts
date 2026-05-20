@@ -37,9 +37,8 @@ export const deleteNoteFetcher = async({params}:ActionFunctionArgs)=>{
 
 // POST /notes
 export const createNoteAction = async ({ request }: ActionFunctionArgs) => {
-    const token = useAuth.getState().auth?.accessTokens
     const payload = await request.json();
-    await createNote(payload, token)
+    await createNote(payload)
     return redirect("/notes");
 }
 

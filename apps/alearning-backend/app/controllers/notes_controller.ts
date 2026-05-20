@@ -11,19 +11,33 @@ export default class NotesController {
     // private noteService: NoteService = new NoteService()
     // constructor(private noteService: NoteService) {}
 
-    async getPublicNotes(){
-        return await Note.query().where('visibility', 'public')
+    async getPublicNotes({auth}:HttpContext){
+        await auth.check()
+        const notes = Note.query().where('visibility', 'public')
                                     .where('isShadow', false)
                                     .preload('topics')
                                     .preload('owner')
+
+        if(auth.isAuthenticated){
+            notes.orWhere('ownerId', auth.user?.id)
+        }
+
+        return notes.exec()
     }
 
-    async getNoteById({params}:HttpContext){
+    async getNoteById({params, bouncer, auth}:HttpContext){
+        await auth.check()
         const noteId = params.id
-        return await Note.query().where('id',noteId)
+        const note = await Note.query().where('id',noteId)
                                     .preload('topics')
                                     .preload('owner')
                                     .first()
+        
+        if(note?.visibility === "private"){
+            await bouncer.with('NotePolicy').authorize('viewPivateNote', note)
+        }
+
+        return note
     }
 
     async createNote({auth, request, response}:HttpContext){
@@ -60,22 +74,24 @@ export default class NotesController {
         return response.created(newNote)
     }
 
-    async deleteNote({params}:HttpContext){
+    async deleteNote({params, bouncer}:HttpContext){
         const noteId = params.id
 
         const delNote = await Note.query().where('id', noteId).first()
+        await bouncer.with('NotePolicy').authorize('deleteNote', delNote)
         await delNote?.delete()
         
         return delNote
     }
 
-    async editNote({params, request}:HttpContext){
+    async editNote({params, request, bouncer}:HttpContext){
         const noteBody = request.body()
         const noteId = params.id
 
         const editedNote = await db.transaction(async (trx)=>{
 
             let note = await Note.query().where('id',noteId).first()
+            await bouncer.with('NotePolicy').authorize('editNote',note)
             
             if(note){
                 note!.title = noteBody.title
