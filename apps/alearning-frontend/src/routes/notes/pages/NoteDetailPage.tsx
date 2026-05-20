@@ -3,12 +3,14 @@ import { Button } from "../../../components/BaseComponents/Button";
 import { ActionIcon } from "../../../components/ActionIcon";
 import Markdown from "react-markdown";
 import remarkGfm from 'remark-gfm'
+import { useAuth } from "../../../features/auth/stores/authStore";
 
 
 export function NoteDetailPage(){
     const submit = useSubmit()
     const navigate = useNavigate()
-    const {note} = useLoaderData() 
+    const {note} = useLoaderData()
+    const {auth} = useAuth()
 
     const items = [
         {
@@ -39,7 +41,7 @@ export function NoteDetailPage(){
                 <Button disabled className="bg-green-500 text-white font-semibold mx-2">
                     {note?.visibility}
                 </Button>
-                <ActionIcon items={items} className="ml-auto" ></ActionIcon>
+                {auth?.userId === note.ownerId && <ActionIcon items={items} className="ml-auto" />}
             </div>
             <Markdown remarkPlugins={[remarkGfm]}>{note?.content}</Markdown>
         </div>
