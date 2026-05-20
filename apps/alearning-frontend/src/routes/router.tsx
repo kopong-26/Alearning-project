@@ -34,7 +34,13 @@ export const router = createBrowserRouter([
       {
         path: "notes/create", 
         Component: NoteFormPage,
-        loader: ()=>{ requireAuth() },
+        loader: ()=>{ 
+          try{
+            requireAuth()
+          }catch(e){
+            if(e instanceof Error && e.message === "401"){throw redirect("/login")}
+          } 
+        },
       },
       {
         path: "notes/:id/edit",
@@ -55,5 +61,9 @@ export const router = createBrowserRouter([
   {
     path: "/logout",
     action: logoutAction,
+  },
+  {
+    path: "*",
+    loader: ()=>{throw redirect("/")}
   }
 ])

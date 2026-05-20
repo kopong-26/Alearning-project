@@ -22,13 +22,13 @@ export async function fetchGet(
             headers
         })
         return response
-    }catch(e){
-        console.log(e)
+    }catch{
+        throw new Error()
     }
 
 }
 
-// FIXME
+// FIXME: send body even if doesn't has
 ////////////////////////
 export async function fetchPost(
     url:string, 
@@ -38,8 +38,8 @@ export async function fetchPost(
     const {token} = options
     const headers = new Headers()
 
-    headers.set('Content-Type',  'application/json') // 1. แปะป้ายบอก Backend ว่านี่คือ JSON นะ
-    headers.set('Accept','application/json') // 2. (Optional) บอกว่า Frontend ก็ขอรับคำตอบกลับมาเป็น JSON เหมือนกัน
+    headers.set('Content-Type',  'application/json') 
+    headers.set('Accept','application/json') 
     
     if(token){
         headers.set("Authorization", `Bearer ${token}`)
@@ -52,7 +52,7 @@ export async function fetchPost(
             headers: headers,
         })
         return response
-    }catch(e){ console.log(e) }
+    }catch{ throw new Error()}
 }
 
 export async function fetchDel(url:string, options: FetchOption = {},) {
@@ -69,7 +69,7 @@ export async function fetchDel(url:string, options: FetchOption = {},) {
         })
 
         return response
-    }catch(e){console.log(e)}
+    }catch{ throw new Error()}
 }
 
 export async function fetchPut(
@@ -93,5 +93,5 @@ export async function fetchPut(
             headers: headers,
         })
         return response
-    }catch(e){ console.log(e) }
+    }catch{ throw new Error()}
 }

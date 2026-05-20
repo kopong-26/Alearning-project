@@ -13,14 +13,24 @@ export const noteAction = async({request,params}:ActionFunctionArgs)=>{
     const token = useAuth.getState().auth?.accessTokens
     if(request.method === 'DELETE' ){
         const noteId = params.id
-        await fetchDel(`${import.meta.env.VITE_NOTE_API}/${noteId}`,{token})
-        return redirect('/notes')
+        try{
+            await fetchDel(`${import.meta.env.VITE_NOTE_API}/${noteId}`,{token})
+            return redirect('/notes')
+        }catch(e){
+            if(e instanceof Error && e.message === "401"){ throw redirect('/login')}
+            if(e instanceof Error && e.message === "403"){ throw redirect('/notes')}
+        }
     }
     if(request.method === 'PUT' ){
         const noteId = params.id
         const payload = await request.json()
-        await fetchPut(`${import.meta.env.VITE_NOTE_API}/${noteId}`, payload, {token})
-        return redirect(`/notes/${noteId}`)
+        try{
+            await fetchPut(`${import.meta.env.VITE_NOTE_API}/${noteId}`, payload, {token})
+            return redirect(`/notes/${noteId}`)
+        }catch(e){
+            if(e instanceof Error && e.message === "401"){ throw redirect('/login')}
+            if(e instanceof Error && e.message === "403"){ throw redirect('/notes')}
+        }
     }          
 }
 
@@ -30,16 +40,26 @@ export const noteAction = async({request,params}:ActionFunctionArgs)=>{
 export const deleteNoteFetcher = async({params}:ActionFunctionArgs)=>{
     const token = useAuth.getState().auth?.accessTokens
     const noteId = params.id
-    await fetchDel(`${import.meta.env.VITE_NOTE_API}/${noteId}`,{token})
+    try{
+        await fetchDel(`${import.meta.env.VITE_NOTE_API}/${noteId}`,{token})
+    }catch(e){
+        if(e instanceof Error && e.message === "401"){ throw redirect('/login')}
+        if(e instanceof Error && e.message === "403"){ throw redirect('/notes')}
+    }
 
 }
 
 
 // POST /notes
 export const createNoteAction = async ({ request }: ActionFunctionArgs) => {
-    const payload = await request.json();
-    await createNote(payload)
-    return redirect("/notes");
+    const payload = await request.json()
+    try{
+        await createNote(payload)
+        return redirect("/notes")
+    }catch(e){
+        if(e instanceof Error && e.message === "401"){ throw redirect('/login')}
+        if(e instanceof Error && e.message === "403"){ throw redirect('/notes')}
+    }
 }
 
 // GET /notes
@@ -50,9 +70,13 @@ export const getNotesLoader = async() => {
 }
 
 export const getNoteByIdLoader = async({params}: LoaderFunctionArgs) => {
-    
     const id = params.id as string
-    return {
-        note: await getNoteById(id)
+    try{
+        const note = await getNoteById(id)
+        
+        return { note: note }
+
+    }catch(e){
+        if(e instanceof Error && e.message === "403" ){ throw redirect('/notes')}
     }
 }
