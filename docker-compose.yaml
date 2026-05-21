@@ -16,6 +16,12 @@ services:
       dockerfile: ./apps/alearning-backend/Dockerfile
     depends_on:
       - mysql
+    volumes:
+      - .:/app/
+      - /app/apps/alearning-backend/node_modules/
+      - /app/apps/alearning-frontend/node_modules/
+      - /app/node_modules
+
   react:
     ports:
       - 5173:5173
@@ -26,6 +32,12 @@ services:
     build:
       context: .
       dockerfile: ./apps/alearning-frontend/Dockerfile
+    volumes:
+      - .:/app/
+      - /app/apps/alearning-backend/node_modules/
+      - /app/apps/alearning-frontend/node_modules/
+      - /app/node_modules
+    
   mysql:
     container_name: mysql-server
     environment:
