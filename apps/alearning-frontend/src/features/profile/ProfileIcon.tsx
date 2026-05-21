@@ -1,4 +1,4 @@
-import { useSubmit } from "react-router";
+import { useNavigate, useSubmit } from "react-router";
 import { ActionIcon } from "../../components/ActionIcon";
 import type { Items } from "../../components/BaseComponents/OptionList";
 import { useAuth } from "../auth/stores/authStore";
@@ -6,6 +6,7 @@ import { useAuth } from "../auth/stores/authStore";
 export function ProfileIcon(){
     const {auth} = useAuth()
     const submit = useSubmit()
+    const navigate = useNavigate()
     const userItems:Items = [
         {
             header: auth?.username,
@@ -20,7 +21,7 @@ export function ProfileIcon(){
         {
             header: auth?.username,
             options: [
-                {label: "Create user", key:"createUser", action: ()=>{}},
+                {label: "Create user", key:"createUser", action: ()=>{navigate("/users/create")}},
                 {label: "Logout", key:"logout", action: ()=>{
                     submit(null,{method: "POST", action:"/logout"})
                 }},

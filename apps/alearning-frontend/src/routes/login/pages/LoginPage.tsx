@@ -17,7 +17,6 @@ export function LoginPage(){
                         <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="username">
                             Username
                         </label>
-                        {/* 🌟 ไม่ใช้ value และ onChange แต่ใช้ name เพื่อให้ FormData ดึงค่าได้ */}
                         <input
                             id="username"
                             name="username"

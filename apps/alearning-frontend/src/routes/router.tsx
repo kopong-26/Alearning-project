@@ -7,6 +7,8 @@ import { createNoteAction, deleteNoteFetcher, getNoteByIdLoader, getNotesLoader,
 import { LoginPage } from "./login/pages/LoginPage";
 import { loginAction, logoutAction } from "./login/loginAction";
 import { requireAuth } from "../features/auth/api/requireAuth";
+import { UserFormPage } from "./users/UserFormPage";
+import { createUserAction, createUserLoader } from "./users/loaderAction";
 
 export const router = createBrowserRouter([
   {
@@ -45,8 +47,14 @@ export const router = createBrowserRouter([
       {
         path: "notes/:id/edit",
         Component: NoteFormPage,
-        loader: getNoteByIdLoader
+        loader: getNoteByIdLoader,
       },
+      {
+        path: 'users/create',
+        Component: UserFormPage,
+        action: createUserAction,
+        loader: createUserLoader,
+      }
     ]
   },
   {

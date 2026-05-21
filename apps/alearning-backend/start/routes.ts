@@ -10,3 +10,4 @@
 import './routes/note.js'
 import './routes/topic.js'
 import './routes/auth.js'
+import './routes/user.js'

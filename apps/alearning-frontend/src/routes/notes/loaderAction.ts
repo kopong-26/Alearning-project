@@ -52,8 +52,8 @@ export const deleteNoteFetcher = async({params}:ActionFunctionArgs)=>{
 
 // POST /notes
 export const createNoteAction = async ({ request }: ActionFunctionArgs) => {
-    const payload = await request.json()
     try{
+        const payload = await request.json()
         await createNote(payload)
         return redirect("/notes")
     }catch(e){
