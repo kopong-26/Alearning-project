@@ -5,8 +5,9 @@ import { createUser } from "../../features/user/createUser"
 export const createUserAction = async ({ request }: ActionFunctionArgs) => {
     try{
         const formData = await request.formData()
-        const payload = Object.fromEntries(formData)
-        await createUser(payload)
+        // FIXME: assertsion
+        const payload = Object.fromEntries(formData) as Record<string, string>;
+        await createUser(payload) 
         return redirect("/notes")
     }catch(e){
         if(e instanceof Error && e.message === "401"){ throw redirect('/login')}

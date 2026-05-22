@@ -32,7 +32,7 @@ export async function fetchGet(
 ////////////////////////
 export async function fetchPost(
     url:string, 
-    body: Record<string, string | number | any[]>,
+    body: Record<string, string | number | any[]> | null,
     options: FetchOption = {},
 ){
     const {token} = options

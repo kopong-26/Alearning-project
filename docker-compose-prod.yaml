@@ -1,0 +1,57 @@
+name: alearning-project-prod
+services:
+  adonisjs:
+    container_name: alearning-be
+    networks:
+      - frontend
+      - backend
+    image: adonisjs-prod
+    build:
+      context: .
+      dockerfile: ./apps/alearning-backend/Dockerfile
+      target: prod
+    depends_on:
+      - mysql
+    env_file:
+      - apps/alearning-backend/.env.production
+
+  webserver:
+    container_name: alearning-fe
+    networks:
+      - frontend
+    image: react-prod
+    build:
+      context: .
+      dockerfile: ./apps/alearning-frontend/Dockerfile
+      target: prod
+  
+  reverse-proxy:
+    ports: 
+      - 80:80
+    container_name: proxy-server
+    image: reverse-proxy
+    build:
+      context: .
+    networks:
+      - frontend
+    depends_on:
+      - adonisjs
+      - webserver
+  
+  mysql:
+    container_name: mysql-server-prod
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
+      - MYSQL_USER=alearning
+      - MYSQL_PASSWORD=alearning
+      - MYSQL_DATABASE=note_app
+    networks:
+      - backend
+    image: mysql:8.0
+    volumes:
+      - alearning-mysql:/var/lib/mysql
+networks:
+  frontend:
+  backend:
+volumes:
+  alearning-mysql:

@@ -1,7 +1,6 @@
 import type { NoteResponse } from "@alearning/types";
-import type { Note } from "../types/note.types";
 
-export function mapToNote(noteResponse: NoteResponse):Note{
+export function mapToNote(noteResponse: NoteResponse){
     return {
         id: noteResponse.id,
         title: noteResponse.title,

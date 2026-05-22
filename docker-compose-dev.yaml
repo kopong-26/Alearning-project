@@ -1,7 +1,4 @@
-# named network 'dev-net' is marked as "external" (used by service 'adonisjs'), so either remove "external" from network definition or it needs to be created using: docker network create -d bridge dev-net
-
-# named network 'dev-net' is marked as "external" (used by service 'react'), so either remove "external" from network definition or it needs to be created using: docker network create -d bridge dev-net
-name: alearning-project
+name: alearning-project-dev
 services:
   adonisjs:
     ports:
@@ -9,11 +6,12 @@ services:
     container_name: adonisjs
     networks:
       - dev-net
-      - backend
+      - backend-dev
     image: adonisjs
     build:
       context: .
       dockerfile: ./apps/alearning-backend/Dockerfile
+      target: dev
     depends_on:
       - mysql
     volumes:
@@ -32,6 +30,7 @@ services:
     build:
       context: .
       dockerfile: ./apps/alearning-frontend/Dockerfile
+      target: dev
     volumes:
       - .:/app/
       - /app/apps/alearning-backend/node_modules/
@@ -46,8 +45,8 @@ services:
       - MYSQL_PASSWORD=alearning
       - MYSQL_DATABASE=note_app
     networks:
-      - backend
+      - backend-dev
     image: mysql:8.0
 networks:
   dev-net:
-  backend:
+  backend-dev:
