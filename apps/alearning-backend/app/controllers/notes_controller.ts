@@ -94,14 +94,14 @@ export default class NotesController {
             await bouncer.with('NotePolicy').authorize('editNote',note)
             
             if(note){
-                note!.title = noteBody.title
-                note!.slug = noteBody.title + crypto.randomUUID()
-                note!.visibility = noteBody.visibility
-                note!.isShadow = false
-                note!.description = noteBody.description
-                note!.content = noteBody.content
+                note.title = noteBody.title
+                note.slug = noteBody.title + crypto.randomUUID()
+                note.visibility = noteBody.visibility
+                note.isShadow = false
+                note.description = noteBody.description
+                note.content = noteBody.content
 
-                note?.useTransaction(trx)
+                note.useTransaction(trx)
                 await note?.save()
 
                 const tags = await Tag.query().where('note_id', noteId)
