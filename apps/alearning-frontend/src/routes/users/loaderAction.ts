@@ -3,6 +3,7 @@ import { requireAuth } from "../../features/auth/api/requireAuth"
 import { createUser } from "../../features/user/createUser"
 
 export const createUserAction = async ({ request }: ActionFunctionArgs) => {
+    console.log("action")
     try{
         const formData = await request.formData()
         // FIXME: assertsion
@@ -12,6 +13,9 @@ export const createUserAction = async ({ request }: ActionFunctionArgs) => {
     }catch(e){
         if(e instanceof Error && e.message === "401"){ throw redirect('/login')}
         if(e instanceof Error && e.message === "403"){ throw redirect('/notes')}
+        if(e instanceof Error && e.message === "422"){
+            return e.cause
+        }
     }
 }
 

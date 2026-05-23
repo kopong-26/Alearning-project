@@ -1,7 +1,9 @@
+import type { Dispatch, SetStateAction } from "react";
 import { Fragment } from "react/jsx-runtime";
 
 type OptionListProps = {
     items: Items
+    setIsClick: Dispatch<SetStateAction<boolean>>
 }
 
 export type Items = Item[]
@@ -17,7 +19,7 @@ interface Option{
     action: ()=>any   
 }
 
-export function OptionList({items}: OptionListProps){
+export function OptionList({items, setIsClick}: OptionListProps){
     return (
         <div className="absolute top-full right-0 border border-main-contrast bg-white
         rounded-sm shadow-md shadow-main-contrast w-30"> 
@@ -35,7 +37,10 @@ export function OptionList({items}: OptionListProps){
                             { item.options.map((option,index) => (
                                 <li key={index}> 
                                     <button 
-                                        onClick={option.action}
+                                        onClick={()=>{
+                                            option.action()
+                                            setIsClick(false)
+                                        }}
                                         className="w-full text-left cursor-pointer px-4 py-1.5"
                                     >
                                         {option.label}

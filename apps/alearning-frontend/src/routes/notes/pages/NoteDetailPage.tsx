@@ -38,7 +38,10 @@ export function NoteDetailPage(){
         <div className="m-4 p-4 border border-main-contrast rounded-sm gap-2.5 flex-col flex">
             <div className="flex items-center pb-2 border-b border-main-contrast">
                 <h2 className="text-2xl font-semibold ">{note?.title}</h2>
-                <Button disabled className="bg-green-500 text-white font-semibold mx-2">
+                <Button disabled 
+                    className={`${note?.visibility === "public"? "bg-green-500":"bg-gray-500"}
+                     text-white font-semibold mx-2`}
+                >
                     {note?.visibility}
                 </Button>
                 {auth?.userId === note.ownerId && <ActionIcon items={items} className="ml-auto" />}

@@ -40,7 +40,7 @@ export function ActionIcon({items, className="", icon="ellip"}: ActionIconProps)
 
 
             {isClick && (
-                <OptionList items={items}></OptionList>
+                <OptionList items={items} setIsClick={setIsClick}></OptionList>
             )}
         
         </div>
