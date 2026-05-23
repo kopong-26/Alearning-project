@@ -7,7 +7,7 @@ const schema = vine.object({
     email: vine.string().unique({table: 'users', column: 'email'}).nullable(),
     password: vine.string(),
     firstname: vine.string().maxLength(50).nullable(),
-    lastname: vine.string().nullable(),
+    lastname: vine.string().maxLength(50).nullable(),
     role: vine.string()
 })
 

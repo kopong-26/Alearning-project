@@ -5,6 +5,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 import Note from '#models/note';
 import Tag from '#models/tag';
 import db from '@adonisjs/lucid/services/db';
+import { noteValidator } from '#validators/noteValidator';
 
 // @inject()
 export default class NotesController {
@@ -41,7 +42,7 @@ export default class NotesController {
     }
 
     async createNote({auth, request, response}:HttpContext){
-        const noteBody = request.body() 
+        const noteBody = await request.validateUsing(noteValidator)
         const user = auth.getUserOrFail()
        
         const newNote = await db.transaction(async (trx)=>{
@@ -85,7 +86,7 @@ export default class NotesController {
     }
 
     async editNote({params, request, bouncer}:HttpContext){
-        const noteBody = request.body()
+        const noteBody = await request.validateUsing(noteValidator)
         const noteId = params.id
 
         const editedNote = await db.transaction(async (trx)=>{

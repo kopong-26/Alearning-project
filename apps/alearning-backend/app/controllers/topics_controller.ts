@@ -2,12 +2,13 @@ import type { HttpContext } from '@adonisjs/core/http'
 
 import Topic from "#models/topic";
 import { escapeLike } from '../utils/textUtil.js';
+import { topicValidator } from '#validators/topic';
 
 
 
 export default class TopicsController {
     async getTopic({request}:HttpContext){
-        const {search}: Record<string, string | undefined> = request.all()
+        const {search}: Record<string, string | undefined> = request.qs()
         const query = Topic.query()
 
         let searchContain = (search ?? '')
@@ -24,8 +25,10 @@ export default class TopicsController {
 
     // {"name": ""}
     async createTopic({request, response}:HttpContext){
-        const body = request.body()
-        const newTopic = await Topic.create(body)
+        const {name} = await request.validateUsing(topicValidator)
+        const newTopic = await Topic.create({
+            name: name
+        })
         response.created(newTopic)
     }
 }
