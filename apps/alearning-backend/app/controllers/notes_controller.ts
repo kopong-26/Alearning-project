@@ -105,11 +105,11 @@ export default class NotesController {
                 note.useTransaction(trx)
                 await note?.save()
 
-                const tags = await Tag.query().where('note_id', noteId)
-                tags.forEach(async(tag)=> {
+                const tags = await Tag.query().where('noteId', noteId)
+                for (const tag of tags) {
                     tag.useTransaction(trx)
                     await tag.delete()
-                })
+                }
                 
                 for(let tag of noteBody.topic_id){
                         await Tag.create({
