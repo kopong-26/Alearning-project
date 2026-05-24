@@ -3,7 +3,7 @@ import { MainLayout } from "../layouts/MainLayout";
 import { NoteListPage } from "./notes/pages/NoteListPage";
 import { NoteDetailPage } from "./notes/pages/NoteDetailPage";
 import { NoteFormPage } from "./notes/pages/NoteFormPage";
-import { createNoteAction, deleteNoteFetcher, getNoteByIdLoader, getNotesLoader, noteAction } from "./notes/loaderAction";
+import { createNoteAction, deleteNoteFetcher, editNoteLoader, getNoteByIdLoader, getNotesLoader, noteAction } from "./notes/loaderAction";
 import { LoginPage } from "./login/pages/LoginPage";
 import { loginAction, logoutAction } from "./login/loginAction";
 import { requireAuth } from "../features/auth/api/requireAuth";
@@ -47,7 +47,7 @@ export const router = createBrowserRouter([
       {
         path: "notes/:id/edit",
         Component: NoteFormPage,
-        loader: getNoteByIdLoader,
+        loader: editNoteLoader,
       },
       {
         path: 'users/create',

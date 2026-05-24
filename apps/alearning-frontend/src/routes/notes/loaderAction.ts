@@ -5,6 +5,7 @@ import { getNotes } from "../../features/note/api/getNotes";
 import { createNote } from "../../features/note/api/createNote";
 import { getNoteById } from "../../features/note/api/getNote";
 import { useAuth } from "../../features/auth/stores/authStore";
+import { requireAuth } from "../../features/auth/api/requireAuth";
 
 //FIXME
 /////////////////////
@@ -78,5 +79,19 @@ export const getNoteByIdLoader = async({params}: LoaderFunctionArgs) => {
 
     }catch(e){
         if(e instanceof Error && e.message === "403" ){ throw redirect('/notes')}
+    }
+}
+
+export const editNoteLoader = async({params}: LoaderFunctionArgs) => {
+    const id = params.id as string
+    try{
+        requireAuth()
+        const note = await getNoteById(id)
+        
+        return { note: note }
+
+    }catch(e){
+        if(e instanceof Error && e.message === "403" ){ throw redirect('/notes')}
+        if(e instanceof Error && e.message === "401" ){ throw redirect('/login')}
     }
 }
