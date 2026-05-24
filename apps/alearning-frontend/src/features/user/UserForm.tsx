@@ -47,9 +47,9 @@ export function UserForm(){
         const confirmPassEle = confirmPassRef.current
         const confirmPass = confirmPassEle?.value
         const notvalidConfirmPass = password !== confirmPass
-        console.log(notvalidConfirmPass)
+        
         const isUsernameEmpty = username === ""
-        console.log(isUsernameEmpty)
+        
         const isPasswordEmpty = password === ""
 
         if(notvalidConfirmPass || isUsernameEmpty || isPasswordEmpty){

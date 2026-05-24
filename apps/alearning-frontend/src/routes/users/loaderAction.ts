@@ -3,7 +3,6 @@ import { requireAuth } from "../../features/auth/api/requireAuth"
 import { createUser } from "../../features/user/createUser"
 
 export const createUserAction = async ({ request }: ActionFunctionArgs) => {
-    console.log("action")
     try{
         const formData = await request.formData()
         // FIXME: assertsion
